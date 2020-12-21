@@ -13,3 +13,18 @@ vscode extension for bridged apps
 - translation mode
 - asset management mode
 - project inspection mode
+
+
+
+## Development
+
+
+
+install vscode & setup dev environment
+
+**[installation guideline (vscode official)](https://code.visualstudio.com/api/get-started/your-first-extension)**
+
+```shell
+npm install -g yo generator-code
+```
+
