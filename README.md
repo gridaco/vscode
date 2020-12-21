@@ -1,4 +1,4 @@
-# vscode-extension
+# vscode extension for bridged
 vscode extension for bridged apps
 
 ## Features
