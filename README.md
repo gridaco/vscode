@@ -1,7 +1,13 @@
 # vscode extension for bridged
+
 vscode extension for bridged apps
 
+## Get it
+
+Install vscode extension [from here](https://marketplace.visualstudio.com/items?itemName=bridged.bridged-vscode-extension)
+
 ## Features
+
 - design preview
 - visual ui coding
 - visual slots, management
@@ -9,16 +15,13 @@ vscode extension for bridged apps
 - built in [g11n](https://github.com/bridgedxyz/g11n) support (also supported by [chrome-extension](https://github.com/bridgedxyz/chrome-extension))
 
 ## Modes
+
 - ui dev mode
 - translation mode
 - asset management mode
 - project inspection mode
 
-
-
 ## Development
-
-
 
 install vscode & setup dev environment
 
@@ -27,4 +30,3 @@ install vscode & setup dev environment
 ```shell
 npm install -g yo generator-code
 ```
-

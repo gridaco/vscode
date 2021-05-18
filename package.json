@@ -1,8 +1,11 @@
 {
-  "name": "bridged-vscode-extension",
-	"displayName": "bridged",
+	"name": "bridged-vscode-extension",
+	"displayName": "Bridged",
 	"description": "bridged's official extension for vscode users",
-	"version": "0.0.1",
+	"version": "0.0.0",
+	"publisher": "bridged",
+	"homepage": "https://bridged.xyz",
+	"repository": "https://github.com/bridgedxyz/vscode-extension",
 	"engines": {
 		"vscode": "^1.52.0"
 	},
@@ -10,7 +13,7 @@
 		"Other"
 	],
 	"activationEvents": [
-        "onCommand:bridged-vscode-extension.helloWorld"
+		"onCommand:bridged-vscode-extension.helloWorld"
 	],
 	"main": "./dist/extension.js",
 	"contributes": {
