@@ -21,3 +21,4 @@ Here you can find all the real world vscode extension examples by microsoft. - h
 ### References - highlights.
 
 - uri handling - https://github.com/microsoft/vscode-extension-samples/tree/main/uri-handler-sample
+-
