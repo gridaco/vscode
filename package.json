@@ -6,6 +6,7 @@
 	"publisher": "bridged",
 	"homepage": "https://bridged.xyz",
 	"repository": "https://github.com/bridgedxyz/vscode-extension",
+	"icon": "branding/logo-256-no-edit.png",
 	"engines": {
 		"vscode": "^1.52.0"
 	},
