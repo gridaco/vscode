@@ -1,11 +1,11 @@
 {
-	"name": "bridged-vscode-extension",
-	"displayName": "Bridged",
-	"description": "bridged's official extension for vscode users",
+	"name": "grida-vscode-extension",
+	"displayName": "Grida",
+	"description": "Grida's official extension for vscode users",
 	"version": "0.0.0",
-	"publisher": "bridged",
-	"homepage": "https://bridged.xyz",
-	"repository": "https://github.com/bridgedxyz/vscode-extension",
+	"publisher": "grida",
+	"homepage": "https://grida.co",
+	"repository": "https://github.com/gridaco/vscode-extension",
 	"icon": "branding/logo-256-no-edit.png",
 	"engines": {
 		"vscode": "^1.52.0"
@@ -14,13 +14,13 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:bridged-vscode-extension.helloWorld"
+		"onCommand:grida-vscode-extension.helloWorld"
 	],
 	"main": "./dist/extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "bridged-vscode-extension.helloWorld",
+				"command": "grida-vscode-extension.helloWorld",
 				"title": "Hello World"
 			}
 		]

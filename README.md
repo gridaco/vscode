@@ -1,6 +1,6 @@
-# vscode extension for bridged
+# vscode extension for Grida
 
-vscode extension for bridged apps
+vscode extension for grida apps
 
 ## Get it
 
@@ -12,7 +12,6 @@ Install vscode extension [from here](https://marketplace.visualstudio.com/items?
 - visual ui coding
 - visual slots, management
 - mock data loaders, and more
-- built in [g11n](https://github.com/bridgedxyz/g11n) support (also supported by [chrome-extension](https://github.com/bridgedxyz/chrome-extension))
 
 ## Modes
 
@@ -30,3 +29,7 @@ install vscode & setup dev environment
 ```shell
 npm install -g yo generator-code
 ```
+
+## Roadmap
+
+- built in [g11n](https://github.com/bridgedxyz/g11n) support (also supported by [chrome-extension](https://github.com/bridgedxyz/chrome-extension))

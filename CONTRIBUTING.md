@@ -1,8 +1,8 @@
 ## Genral contribution
 
-For contributing to this project, read the bridged general contribution guideline at - https://github.com/bridgedxyz/contributing-and-license
+For contributing to this project, read the grida general contribution guideline at - https://github.com/gridaco/contributing-and-license
 
-## Publishing (for Bridged team)
+## Publishing (for Grida team)
 
 Learn more at [publishing-extension](https://code.visualstudio.com/api/working-with-extensions/publishing-extension)
 
