@@ -21,4 +21,8 @@ Here you can find all the real world vscode extension examples by microsoft. - h
 ### References - highlights.
 
 - uri handling - https://github.com/microsoft/vscode-extension-samples/tree/main/uri-handler-sample
--
+- [Tree view api](https://code.visualstudio.com/api/extension-guides/tree-view)
+- [Webview api](https://code.visualstudio.com/api/extension-guides/webview)
+- [Web extension - extension for github.dev](https://code.visualstudio.com/api/extension-guides/web-extensions)
+- [Virtual workspace](https://code.visualstudio.com/api/extension-guides/virtual-workspaces)
+- [Custom editor](https://github.com/microsoft/vscode-extension-samples/tree/main/custom-editor-sample)
