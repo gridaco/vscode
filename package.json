@@ -29,6 +29,37 @@
 				"command": "grida-vscode-extension.enter-assistant-live-session",
 				"title": "Enter live session"
 			}
+		],
+		"viewsContainers": {
+			"activitybar": [
+				{
+					"id": "grida-explorer",
+					"title": "Grida",
+					"icon": "media/activity-bar-icon.svg"
+				}
+			]
+		},
+		"views": {
+			"grida-explorer": [
+				{
+					"id": "grida-explorer",
+					"name": "grida-explorer",
+					"icon": "media/activity-bar-icon.svg",
+					"contextualTitle": "Grida explorer"
+				}
+			],
+			"explorer": [
+				{
+					"id": "grida-hierarchy",
+					"name": "Grida"
+				}
+			]
+		},
+		"viewsWelcome": [
+			{
+				"view": "grida-explorer",
+				"contents": "No Grida project found [learn more](https://www.grida.co/).\n[Signin](command:grida.signin)"
+			}
 		]
 	},
 	"scripts": {
