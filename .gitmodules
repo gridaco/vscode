@@ -1,0 +1,3 @@
+[submodule "externals/design-to-code"]
+	path = externals/design-to-code
+	url = https://github.com/gridaco/designto-code
