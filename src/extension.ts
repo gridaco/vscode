@@ -7,11 +7,13 @@ import {
   GridaExplorerPreviewProvider,
 } from "./grida-explorer";
 import { CodeEmbedVscodePanel } from "./panel-webview-embed";
+import { __register_v_doc } from "./virtual";
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
   __register_commands(context);
+  __register_v_doc(context);
 
   // register grida explorer data provider
   vscode.window.registerTreeDataProvider(

@@ -15,8 +15,8 @@
 	],
 	"activationEvents": [
 		"onCommand:grida-vscode-extension.enter-assistant-live-session",
-		"onCommand:grida-explorer-components.view-as-tree",
-		"onCommand:grida-explorer-components.view-as-web",
+		"onCommand:grida-open-v-doc",
+		"onCommand:grida-open-v-doc-load-from-input-url",
 		"onWebviewPanel:grida-vscode-extension",
 		"onView:grida-explorer",
 		"onView:grida-explorer-project-scenes",
@@ -30,6 +30,11 @@
 			{
 				"command": "grida-vscode-extension.enter-assistant-live-session",
 				"title": "Enter live session"
+			},
+			{
+				"command": "grida-open-v-doc-load-from-input-url",
+				"title": "From Figma Url",
+				"category": "Load Design"
 			},
 			{
 				"command": "grida-explorer.refresh",
@@ -119,6 +124,28 @@
 					"group": "inline"
 				}
 			]
+		},
+		"configuration": {
+			"title": "Grida",
+			"properties": {
+				"design2code.framework": {
+					"type": "string",
+					"enum": [
+						"auto",
+						"react",
+						"flutter",
+						"vanilla"
+					],
+					"enumDescriptions": [
+						"automatically configures framework options",
+						"use ReactJS (tsx, jsx)",
+						"use Flutter (dart)",
+						"use html/css & vanilla js"
+					],
+					"default": "auto",
+					"description": "Default front-end framework to use"
+				}
+			}
 		}
 	},
 	"scripts": {
