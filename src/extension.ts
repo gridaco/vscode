@@ -4,7 +4,7 @@ import * as vscode from "vscode";
 import {
   GridaExplorerScenesProvider,
   GridaExplorerHelpProvider,
-  HelpItem,
+  GridaExplorerPreviewProvider,
 } from "./grida-explorer";
 import { CodeEmbedVscodePanel } from "./panel-webview-embed";
 
@@ -18,12 +18,22 @@ export function activate(context: vscode.ExtensionContext) {
     "grida-explorer-project-scenes",
     new GridaExplorerScenesProvider(vscode.workspace.rootPath as string)
   );
+
+  context.subscriptions.push(
+    vscode.window.registerWebviewViewProvider(
+      GridaExplorerPreviewProvider.viewType,
+      new GridaExplorerPreviewProvider(context.extensionUri)
+    )
+  );
+
+  // vscode.window.createWebviewPanel
   const helpTreeView = vscode.window.createTreeView(
     "grida-explorer-help-and-feedback",
     {
       treeDataProvider: new GridaExplorerHelpProvider(),
     }
   );
+
   helpTreeView.onDidChangeSelection((e) => {
     e.selection.forEach((item) => {
       item.handleClick();
@@ -36,14 +46,14 @@ function __register_commands(context: vscode.ExtensionContext) {
   // Now provide the implementation of the command with registerCommand
   // The commandId parameter must match the command field in package.json
 
-  const disposable_enter_live_session = vscode.commands.registerCommand(
-    "grida-vscode-extension.enter-assistant-live-session",
-    () => {
-      CodeEmbedVscodePanel.createOrShow(context.extensionUri);
-    }
+  context.subscriptions.push(
+    vscode.commands.registerCommand(
+      "grida-vscode-extension.enter-assistant-live-session",
+      () => {
+        CodeEmbedVscodePanel.createOrShow(context.extensionUri);
+      }
+    )
   );
-
-  context.subscriptions.push(disposable_enter_live_session);
 }
 
 // this method is called when your extension is deactivated

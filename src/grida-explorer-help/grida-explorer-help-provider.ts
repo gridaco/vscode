@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import * as path from "path";
+import { icons } from "../resource-resolver";
 
 const HELP_ITEMS = [
   {
@@ -55,21 +55,7 @@ export class HelpItem extends vscode.TreeItem {
   }
 
   iconPath = {
-    light: path.join(
-      __filename,
-      "..",
-      "..",
-      "resources",
-      "light",
-      "arrow-forward.svg"
-    ),
-    dark: path.join(
-      __filename,
-      "..",
-      "..",
-      "resources",
-      "dark",
-      "arrow-forward.svg"
-    ),
+    light: icons.arrow_forward.light,
+    dark: icons.arrow_forward.dark,
   };
 }

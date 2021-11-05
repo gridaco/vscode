@@ -2,6 +2,10 @@
 
 For contributing to this project, read the grida general contribution guideline at - https://github.com/gridaco/contributing-and-license
 
+## The UX Design
+
+[Grida VSCode extension design on Figma](https://www.figma.com/file/7nypWFtOiqRieFkv9Qjmsq)
+
 ## Publishing (for Grida team)
 
 Learn more at [publishing-extension](https://code.visualstudio.com/api/working-with-extensions/publishing-extension)

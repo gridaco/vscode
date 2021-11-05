@@ -15,11 +15,14 @@
 	],
 	"activationEvents": [
 		"onCommand:grida-vscode-extension.enter-assistant-live-session",
+		"onCommand:grida-explorer-components.view-as-tree",
+		"onCommand:grida-explorer-components.view-as-web",
 		"onWebviewPanel:grida-vscode-extension",
 		"onView:grida-explorer",
 		"onView:grida-explorer-project-scenes",
 		"onView:grida-explorer-help-and-feedback",
-		"onView:grida-explorer-components"
+		"onView:grida-explorer-components",
+		"onView:grida-explorer-preview"
 	],
 	"main": "./dist/extension.js",
 	"contributes": {
@@ -47,10 +50,6 @@
 					"light": "resources/light/edit.svg",
 					"dark": "resources/dark/edit.svg"
 				}
-			},
-			{
-				"command": "grida-explorer.delete",
-				"title": "Delete"
 			}
 		],
 		"viewsContainers": {
@@ -67,19 +66,23 @@
 				{
 					"id": "grida-explorer-project-scenes",
 					"name": "Scenes",
-					"icon": "media/activity-bar-icon.svg",
 					"contextualTitle": "Scenes"
 				},
 				{
 					"id": "grida-explorer-components",
 					"name": "Components",
-					"icon": "media/activity-bar-icon.svg",
+					"type": "tree",
 					"contextualTitle": "Components"
+				},
+				{
+					"id": "grida-explorer-preview",
+					"name": "Preview",
+					"type": "webview",
+					"contextualTitle": "Preview"
 				},
 				{
 					"id": "grida-explorer-help-and-feedback",
 					"name": "Help and feedback",
-					"icon": "media/activity-bar-icon.svg",
 					"contextualTitle": "Help and feedback",
 					"visibility": "collapsed"
 				}
@@ -114,10 +117,6 @@
 					"command": "grida-explorer.edit",
 					"when": "view == grida-explorer-project-scenes && viewItem == project",
 					"group": "inline"
-				},
-				{
-					"command": "grida-explorer.delete",
-					"when": "view == grida-explorer-project-scenes && viewItem == project"
 				}
 			]
 		}
