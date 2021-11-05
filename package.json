@@ -16,7 +16,10 @@
 	"activationEvents": [
 		"onCommand:grida-vscode-extension.enter-assistant-live-session",
 		"onWebviewPanel:grida-vscode-extension",
-		"onView:grida-explorer"
+		"onView:grida-explorer",
+		"onView:grida-explorer-project-scenes",
+		"onView:grida-explorer-help-and-feedback",
+		"onView:grida-explorer-components"
 	],
 	"main": "./dist/extension.js",
 	"contributes": {

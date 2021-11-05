@@ -1,7 +1,11 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from "vscode";
-import { GridaExplorerTreeProvider } from "./grida-explorer";
+import {
+  GridaExplorerScenesProvider,
+  GridaExplorerHelpProvider,
+  HelpItem,
+} from "./grida-explorer";
 import { CodeEmbedVscodePanel } from "./panel-webview-embed";
 
 // this method is called when your extension is activated
@@ -11,9 +15,20 @@ export function activate(context: vscode.ExtensionContext) {
 
   // register grida explorer data provider
   vscode.window.registerTreeDataProvider(
-    "grida-explorer",
-    new GridaExplorerTreeProvider(vscode.workspace.rootPath as string)
+    "grida-explorer-project-scenes",
+    new GridaExplorerScenesProvider(vscode.workspace.rootPath as string)
   );
+  const helpTreeView = vscode.window.createTreeView(
+    "grida-explorer-help-and-feedback",
+    {
+      treeDataProvider: new GridaExplorerHelpProvider(),
+    }
+  );
+  helpTreeView.onDidChangeSelection((e) => {
+    e.selection.forEach((item) => {
+      item.handleClick();
+    });
+  });
 }
 
 function __register_commands(context: vscode.ExtensionContext) {

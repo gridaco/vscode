@@ -1,1 +1,2 @@
-export * from "./grida-explorer-tree-provider";
+export * from "./grida-explorer-scenes-provider";
+export * from "./grida-explorer-help-provider";
