@@ -128,7 +128,7 @@ export class CodeEmbedVscodePanel {
 				<iframe
           style="width: 100vw; height: 100vh"
           src="${code_live_session_url}"
-          sandbox="allow-scripts allow-same-origin allow-popups"
+          sandbox="allow-scripts allow-same-origin allow-popups clipboard-read clipboard-write"
           frameBorder="0"
           allowFullScreen
         />

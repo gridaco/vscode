@@ -14,20 +14,40 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:grida-vscode-extension.helloWorld",
 		"onCommand:grida-vscode-extension.enter-assistant-live-session",
-		"onWebviewPanel:grida-vscode-extension"
+		"onWebviewPanel:grida-vscode-extension",
+		"onView:grida-explorer"
 	],
 	"main": "./dist/extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "grida-vscode-extension.helloWorld",
-				"title": "Hello World"
-			},
-			{
 				"command": "grida-vscode-extension.enter-assistant-live-session",
 				"title": "Enter live session"
+			},
+			{
+				"command": "grida-explorer.refresh",
+				"title": "Refresh",
+				"icon": {
+					"light": "resources/light/refresh.svg",
+					"dark": "resources/dark/refresh.svg"
+				}
+			},
+			{
+				"command": "grida-explorer.add",
+				"title": "Add"
+			},
+			{
+				"command": "grida-explorer.edit",
+				"title": "Edit",
+				"icon": {
+					"light": "resources/light/edit.svg",
+					"dark": "resources/dark/edit.svg"
+				}
+			},
+			{
+				"command": "grida-explorer.delete",
+				"title": "Delete"
 			}
 		],
 		"viewsContainers": {
@@ -42,10 +62,23 @@
 		"views": {
 			"grida-explorer": [
 				{
-					"id": "grida-explorer",
-					"name": "grida-explorer",
+					"id": "grida-explorer-project-scenes",
+					"name": "Scenes",
 					"icon": "media/activity-bar-icon.svg",
-					"contextualTitle": "Grida explorer"
+					"contextualTitle": "Scenes"
+				},
+				{
+					"id": "grida-explorer-components",
+					"name": "Components",
+					"icon": "media/activity-bar-icon.svg",
+					"contextualTitle": "Components"
+				},
+				{
+					"id": "grida-explorer-help-and-feedback",
+					"name": "Help and feedback",
+					"icon": "media/activity-bar-icon.svg",
+					"contextualTitle": "Help and feedback",
+					"visibility": "collapsed"
 				}
 			],
 			"explorer": [
@@ -60,7 +93,31 @@
 				"view": "grida-explorer",
 				"contents": "No Grida project found [learn more](https://www.grida.co/).\n[Signin](command:grida.signin)"
 			}
-		]
+		],
+		"menus": {
+			"view/title": [
+				{
+					"command": "grida-explorer.refresh",
+					"when": "view == grida-explorer-project-scenes",
+					"group": "navigation"
+				},
+				{
+					"command": "grida-explorer.add",
+					"when": "view == grida-explorer-project-scenes"
+				}
+			],
+			"view/item/context": [
+				{
+					"command": "grida-explorer.edit",
+					"when": "view == grida-explorer-project-scenes && viewItem == project",
+					"group": "inline"
+				},
+				{
+					"command": "grida-explorer.delete",
+					"when": "view == grida-explorer-project-scenes && viewItem == project"
+				}
+			]
+		}
 	},
 	"scripts": {
 		"vscode:prepublish": "yarn run package",
