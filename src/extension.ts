@@ -1,6 +1,7 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from "vscode";
+import { __register_auth_manager } from "./auth";
 import {
   GridaExplorerScenesProvider,
   GridaExplorerHelpProvider,
@@ -14,6 +15,13 @@ import { __register_v_doc } from "./virtual";
 export function activate(context: vscode.ExtensionContext) {
   __register_commands(context);
   __register_v_doc(context);
+  __register_auth_manager(context);
+
+  //
+  vscode.authentication.getSession("grida", [], {
+    clearSessionPreference: true,
+    createIfNone: true,
+  });
 
   // register grida explorer data provider
   vscode.window.registerTreeDataProvider(
