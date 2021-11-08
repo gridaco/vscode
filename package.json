@@ -2,10 +2,11 @@
 	"name": "grida-vscode",
 	"displayName": "Grida",
 	"description": "Grida's official extension for vscode users",
-	"version": "0.0.0",
+	"version": "0.0.1",
 	"publisher": "grida",
 	"homepage": "https://grida.co/vscode",
 	"repository": "https://github.com/gridaco/vscode-extension",
+	"preview": true,
 	"icon": "branding/logo-256-no-edit.png",
 	"engines": {
 		"vscode": "^1.62.0"
@@ -79,15 +80,13 @@
 					"id": "grida-explorer-live",
 					"name": "Live",
 					"type": "tree",
-					"contextualTitle": "Live",
-					"visibility": "hidden"
+					"contextualTitle": "Live"
 				},
 				{
 					"id": "grida-explorer-project-scenes",
 					"name": "Scenes / Components",
 					"type": "tree",
-					"contextualTitle": "Components",
-					"visibility": "hidden"
+					"contextualTitle": "Components"
 				},
 				{
 					"id": "grida-explorer-preview",
@@ -100,7 +99,7 @@
 					"id": "grida-explorer-help-and-feedback",
 					"name": "Help and feedback",
 					"contextualTitle": "Help and feedback",
-					"visibility": "hidden"
+					"visibility": "collapsed"
 				}
 			],
 			"explorer": [
