@@ -21,8 +21,8 @@
 		"onWebviewPanel:grida-vscode-extension",
 		"onView:grida-explorer",
 		"onView:grida-explorer-project-scenes",
+		"onView:grida-explorer-live",
 		"onView:grida-explorer-help-and-feedback",
-		"onView:grida-explorer-components",
 		"onView:grida-explorer-preview"
 	],
 	"main": "./dist/extension.js",
@@ -76,13 +76,15 @@
 		"views": {
 			"grida-explorer": [
 				{
-					"id": "grida-explorer-project-scenes",
-					"name": "Scenes",
-					"contextualTitle": "Scenes"
+					"id": "grida-explorer-live",
+					"name": "Live",
+					"type": "tree",
+					"contextualTitle": "Live",
+					"visibility": "collapsed"
 				},
 				{
-					"id": "grida-explorer-components",
-					"name": "Components",
+					"id": "grida-explorer-project-scenes",
+					"name": "Scenes / Components",
 					"type": "tree",
 					"contextualTitle": "Components"
 				},
@@ -110,6 +112,10 @@
 			{
 				"view": "grida-explorer",
 				"contents": "No Grida project found [learn more](https://www.grida.co/).\n[Signin](command:grida.signin)"
+			},
+			{
+				"view": "grida-explorer-live",
+				"contents": "From Live, you can instantly integrate your design selection into your workspace. Select your design from Figma via Assistant\n- [Open Figma](https://figma.com/files)\n- [Install Assistant](https://www.figma.com/community/plugin/896445082033423994/)\n[Learn how](command:grida.signin)\n[Refresh](command:grida.signin)"
 			}
 		],
 		"menus": {
