@@ -80,25 +80,27 @@
 					"name": "Live",
 					"type": "tree",
 					"contextualTitle": "Live",
-					"visibility": "collapsed"
+					"visibility": "hidden"
 				},
 				{
 					"id": "grida-explorer-project-scenes",
 					"name": "Scenes / Components",
 					"type": "tree",
-					"contextualTitle": "Components"
+					"contextualTitle": "Components",
+					"visibility": "hidden"
 				},
 				{
 					"id": "grida-explorer-preview",
 					"name": "Preview",
 					"type": "webview",
-					"contextualTitle": "Preview"
+					"contextualTitle": "Preview",
+					"visibility": "hidden"
 				},
 				{
 					"id": "grida-explorer-help-and-feedback",
 					"name": "Help and feedback",
 					"contextualTitle": "Help and feedback",
-					"visibility": "collapsed"
+					"visibility": "hidden"
 				}
 			],
 			"explorer": [
@@ -111,7 +113,7 @@
 		"viewsWelcome": [
 			{
 				"view": "grida-explorer",
-				"contents": "No Grida project found [learn more](https://www.grida.co/).\n[Signin](command:grida.signin)"
+				"contents": "Welcome to Grida for VSCode. [learn more](https://www.grida.co/).\n[Signin](command:grida.signin)"
 			},
 			{
 				"view": "grida-explorer-live",

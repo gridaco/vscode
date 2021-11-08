@@ -1,4 +1,5 @@
 import * as vscode from "vscode";
+import { webview_utils } from "../_utils";
 
 export class GridaExplorerPreviewProvider
   implements vscode.WebviewViewProvider
@@ -67,24 +68,8 @@ export class GridaExplorerPreviewProvider
     // Use a nonce to only allow a specific script to be run.
     // const nonce = getNonce();
 
-    return `<!DOCTYPE html>
-			<html lang="en">
-			<head>
-				<meta charset="UTF-8">
-				<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-				<title>Live session</title>
-			</head>
-			<body
-        style="width: 100%; height: 100%"
-      >
-				<iframe
-          style="width: 100%; height: 100%"
-          src="${"https://grida.co"}"
-          sandbox="allow-scripts allow-same-origin allow-popups clipboard-read clipboard-write"
-          frameBorder="0"
-        />
-			</body>
-			</html>`;
+    return webview_utils.makeContainingHtml({
+      src: "https://grida.co",
+    });
   }
 }
