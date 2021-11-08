@@ -30,3 +30,4 @@ Here you can find all the real world vscode extension examples by microsoft. - h
 - [Web extension - extension for github.dev](https://code.visualstudio.com/api/extension-guides/web-extensions)
 - [Virtual workspace](https://code.visualstudio.com/api/extension-guides/virtual-workspaces)
 - [Custom editor](https://github.com/microsoft/vscode-extension-samples/tree/main/custom-editor-sample)
+- [Github Pullrequests extension](https://github.com/microsoft/vscode-pull-request-github)

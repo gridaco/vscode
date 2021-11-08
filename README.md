@@ -4,7 +4,7 @@ vscode extension for grida apps
 
 ## Get it
 
-Install vscode extension [from here](https://marketplace.visualstudio.com/items?itemName=bridged.bridged-vscode-extension)
+Install vscode extension [from here](https://marketplace.visualstudio.com/items?itemName=grida.grida-vscode)
 
 ## Features
 

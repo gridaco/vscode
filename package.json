@@ -8,7 +8,7 @@
 	"repository": "https://github.com/gridaco/vscode-extension",
 	"icon": "branding/logo-256-no-edit.png",
 	"engines": {
-		"vscode": "^1.52.0"
+		"vscode": "^1.62.0"
 	},
 	"categories": [
 		"Other"
