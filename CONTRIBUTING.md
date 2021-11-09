@@ -18,6 +18,11 @@ vsce publish
 vsce publish minor
 ```
 
+## Tips (that no one tells you)
+
+- updating the .env variables requires the /dist to be cleared, build from scratch. - restarting the debugging is not enough.
+- to access the `process.env`, you need to **fully** specify the variable to read the value, so the value will be included in the bundle. - `console.log(process.env)` won't print your custom variable unless it is explicityly referenced.
+
 ## Development references
 
 Here you can find all the real world vscode extension examples by microsoft. - https://github.com/microsoft/vscode-extension-samples

@@ -1,8 +1,10 @@
-//@ts-check
+// @ts-nocheck
 
 "use strict";
 
 const path = require("path");
+const webpack = require("webpack");
+const Dotenv = require("dotenv-webpack");
 
 /**@type {import('webpack').Configuration}*/
 const config = {
@@ -16,6 +18,10 @@ const config = {
     filename: "extension.js",
     libraryTarget: "commonjs2",
   },
+  plugins: [
+    new Dotenv(),
+    // new webpack.EnvironmentPlugin(["NODE_ENV", "DEBUG", "CORS_GRIDA_API_KEY"]),
+  ],
   devtool: "nosources-source-map",
   externals: {
     vscode: "commonjs vscode", // the vscode-module is created on-the-fly and must be excluded. Add other modules that cannot be webpack'ed, 📖 -> https://webpack.js.org/configuration/externals/
