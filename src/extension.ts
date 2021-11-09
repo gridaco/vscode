@@ -16,9 +16,11 @@ export function activate(context: vscode.ExtensionContext) {
   __register_commands(context);
   __register_v_doc(context);
 
-  // __register_auth_manager(context);
-  // vscode.authentication.getSession("grida", [], {
-  // });
+  __register_auth_manager(context);
+  vscode.authentication.getSession("grida", [], {
+    clearSessionPreference: true,
+    createIfNone: true,
+  });
 
   // register grida explorer data provider
   vscode.window.registerTreeDataProvider(

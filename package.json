@@ -164,6 +164,7 @@
 	},
 	"scripts": {
 		"vscode:prepublish": "yarn run package",
+		"clean": "rimraf dist",
 		"compile": "webpack --config ./build/node-extension.webpack.config.js",
 		"watch": "webpack --watch --config ./build/node-extension.webpack.config.js",
 		"package": "webpack --mode production --devtool hidden-source-map --config ./build/node-extension.webpack.config.js",
@@ -193,7 +194,7 @@
 		"webpack-cli": "^4.2.0"
 	},
 	"dependencies": {
-		"@base-sdk-fp/auth": "^0.1.0-6",
+		"@base-sdk-fp/auth": "^0.1.0-7",
 		"node-fetch": "2.6.1",
 		"pusher-js": "^7.0.3",
 		"uuid": "8.1.0"

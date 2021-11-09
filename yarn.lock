@@ -30,13 +30,13 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
-"@base-sdk-fp/auth@^0.1.0-6":
-  version "0.1.0-6"
-  resolved "https://registry.yarnpkg.com/@base-sdk-fp/auth/-/auth-0.1.0-6.tgz#7c1947e01a4d851cc2f9ffeb76cfa4c37714bc7d"
-  integrity sha512-sLWbhwl79jk9nj9/WSw5/yBFF0xiH5M3g03CJMmu/QT508hp7wAJLFO73bPl6BolTEng3Cop2g9beNNIeJE1eA==
+"@base-sdk-fp/auth@^0.1.0-7":
+  version "0.1.0-7"
+  resolved "https://registry.yarnpkg.com/@base-sdk-fp/auth/-/auth-0.1.0-7.tgz#5f7804dde7d3009ee67b32ea8c7c00f2d7ccf65d"
+  integrity sha512-0SVSu9n3ksm5hFspKkEETiBDwO5CfXh25tCfn4aK+iUqeisg085VgMpjn8AdLLKQph/v5Zxnn/wNeXzaK4aYEA==
   dependencies:
     "@base-sdk-fp/core" "0.0.1"
-    "@base-sdk/core" "0.1.0-1"
+    "@base-sdk/core" "0.1.0-2"
     axios-retry "^3.1.9"
     otplib "^12.0.1"
 
@@ -45,12 +45,11 @@
   resolved "https://registry.yarnpkg.com/@base-sdk-fp/core/-/core-0.0.1.tgz#6f529041dde5fd6b360f1a73408586c174f34acc"
   integrity sha512-3t9vq9avY52PTSNApXf+5hq12Y/uBVtuLt9m9Ps0VT5PZE5ZjmZhI517z2HHt7gzwG4IntceneJdbn9/qQiSEQ==
 
-"@base-sdk/core@0.1.0-1":
-  version "0.1.0-1"
-  resolved "https://registry.yarnpkg.com/@base-sdk/core/-/core-0.1.0-1.tgz#0cc7102a658caa2e783586f7fb705574711f0072"
-  integrity sha512-FRI5tUq4fr3TU5b077O9gGXrZgAll71wtc+mBPN644xVsntnluMvrbLoCRJd8z5Zp98avkbxkulX8QVoiYFn4g==
+"@base-sdk/core@0.1.0-2":
+  version "0.1.0-2"
+  resolved "https://registry.yarnpkg.com/@base-sdk/core/-/core-0.1.0-2.tgz#629bf09fd4bdce7402533c6ac1708dc87177e36b"
+  integrity sha512-empzgF8oP1MlW6aLVK0IxZeF3l45ufTFF7s5+XT54vFKYz5+ujJQI6i/rSfwlcscLxTNXwVLRLG4PG9P3W4qYg==
   dependencies:
-    "@reflect-ui/core" "0.0.2-rc.7"
     axios "^0.21.0"
 
 "@eslint/eslintrc@^0.2.2":
@@ -127,11 +126,6 @@
     "@otplib/core" "^12.0.1"
     "@otplib/plugin-crypto" "^12.0.1"
     "@otplib/plugin-thirty-two" "^12.0.1"
-
-"@reflect-ui/core@0.0.2-rc.7":
-  version "0.0.2-rc.7"
-  resolved "https://registry.yarnpkg.com/@reflect-ui/core/-/core-0.0.2-rc.7.tgz#9d531f5a0b9caab31e7563020044b753700e2bbc"
-  integrity sha512-EqF4SRU57bfa5DOPET1rv5lROFyMVHLv1xTEIlN6N2gDpXt71QceImWfQp3z3Khqnb4R/p9OhNK6DXGUpozWKw==
 
 "@tootallnate/once@1":
   version "1.1.2"

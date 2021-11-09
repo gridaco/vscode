@@ -3,9 +3,19 @@ import fetch, { Response } from "node-fetch";
 import { v4 as uuid } from "uuid";
 import { PromiseAdapter, promiseFromEvent } from "./utils";
 import { AuthProviderType } from "./provider";
+import {
+  AuthProxySessionStartRequest,
+  AuthProxySessionStartResult,
+  __auth_proxy,
+} from "@base-sdk-fp/auth";
+import { totp } from "otplib";
 
 const NETWORK_ERROR = "network error";
-const AUTH_RELAY_SERVER = "vscode-auth.github.com";
+
+// pre configuration - this is required
+__auth_proxy.api.preconfigure({
+  useRetry: true,
+});
 
 class UriEventHandler
   extends vscode.EventEmitter<vscode.Uri>
@@ -16,7 +26,6 @@ class UriEventHandler
   }
 
   public handleUri(uri: vscode.Uri) {
-    console.trace("Handling Uri...", uri);
     this.fire(uri);
   }
 }
@@ -73,7 +82,7 @@ async function getUserInfo(
     result = await fetch(serverUri.toString(), {
       headers: {
         // eslint-disable-next-line @typescript-eslint/naming-convention
-        Authorization: `token ${token}`,
+        Authorization: `Bearer ${token}`,
         // eslint-disable-next-line @typescript-eslint/naming-convention
         "User-Agent": "Visual-Studio-Code",
       },
@@ -102,7 +111,7 @@ export class GridaServer implements IGridaServer {
   >();
 
   private _pendingStates = new Map<string, string[]>();
-  private _codeExchangePromises = new Map<
+  private _authFromBrowserPromises = new Map<
     string,
     { promise: Promise<string>; cancel: vscode.EventEmitter<void> }
   >();
@@ -123,21 +132,6 @@ export class GridaServer implements IGridaServer {
     this._disposable.dispose();
   }
 
-  private isTestEnvironment(url: vscode.Uri): boolean {
-    return url.authority.startsWith("localhost:");
-  }
-
-  private async isNoCorsEnvironment(): Promise<boolean> {
-    const uri = await vscode.env.asExternalUri(
-      vscode.Uri.parse(`${vscode.env.uriScheme}://vscode.grida-vscode/dummy`)
-    );
-    return (
-      (uri.scheme === "https" &&
-        /^((insiders\.)?vscode|github)\./.test(uri.authority)) ||
-      (uri.scheme === "http" && /^localhost/.test(uri.authority))
-    );
-  }
-
   public async login(scopes: string): Promise<string> {
     console.info(`Logging in for the following scopes: ${scopes}`);
 
@@ -147,7 +141,7 @@ export class GridaServer implements IGridaServer {
       )
     );
 
-    if (this.isTestEnvironment(callbackUri)) {
+    if (isTestEnvironment(callbackUri)) {
       const token = await vscode.window.showInputBox({
         prompt: "Grida Personal Access Token",
         ignoreFocusOut: true,
@@ -180,30 +174,40 @@ export class GridaServer implements IGridaServer {
 
     this.updateStatusBarItem(true);
 
-    const state = uuid();
-    const existingStates = this._pendingStates.get(scopes) || [];
-    this._pendingStates.set(scopes, [...existingStates, state]);
+    ////
+    const requestObj: AuthProxySessionStartRequest = {
+      // appId: "co.grida.assistant",
+      // clientId: client_id,
+      // mode: ProxyAuthenticationMode.long_polling,
+      redirect_uri: callbackUri.toString(),
+    } as any;
 
-    const uri = vscode.Uri.parse(
-      `https://${AUTH_RELAY_SERVER}/authorize/?callbackUri=${encodeURIComponent(
-        callbackUri.toString()
-      )}&scope=${scopes}&state=${state}&responseType=code&authServer=https://github.com`
-    );
-    await vscode.env.openExternal(uri);
+    try {
+      const session = await __auth_proxy.api._api_newProxySession(
+        reqtoken(),
+        requestObj
+      );
+
+      const existingStates = this._pendingStates.get(scopes) || [];
+      this._pendingStates.set(scopes, [...existingStates, session.id]);
+
+      const uri = vscode.Uri.parse(session.authUrl);
+      await vscode.env.openExternal(uri);
+    } catch (e) {
+      console.error(e);
+    }
 
     // Register a single listener for the URI callback, in case the user starts the login process multiple times
     // before completing it.
-    let codeExchangePromise = this._codeExchangePromises.get(scopes);
-    if (!codeExchangePromise) {
-      codeExchangePromise = promiseFromEvent(
-        this._uriHandler.event,
-        this.exchangeCodeForToken(scopes)
-      );
-      this._codeExchangePromises.set(scopes, codeExchangePromise!);
-    }
+
+    let _ = promiseFromEvent(
+      this._uriHandler.event,
+      this.checkSessionAuthenticationState(scopes)
+    );
+    this._authFromBrowserPromises.set(scopes, _);
 
     return Promise.race([
-      codeExchangePromise?.promise,
+      _?.promise,
       promiseFromEvent<string | undefined, string>(
         this._onDidManuallyProvideToken.event,
         (token: string | undefined, resolve: any, reject: any): void => {
@@ -219,21 +223,20 @@ export class GridaServer implements IGridaServer {
       ),
     ]).finally(() => {
       this._pendingStates.delete(scopes);
-      codeExchangePromise?.cancel.fire();
-      this._codeExchangePromises.delete(scopes);
+      _?.cancel.fire();
+      this._authFromBrowserPromises.delete(scopes);
       this.updateStatusBarItem(false);
     });
   }
 
-  private exchangeCodeForToken: (
+  private checkSessionAuthenticationState: (
     scopes: string
   ) => PromiseAdapter<vscode.Uri, string> =
-    (scopes) => async (uri: vscode.Uri, resolve: any, reject: any) => {
+    (scopes) => async (uri, resolve, reject) => {
       const query = parseQuery(uri);
-      const code = query.code;
-
+      const request_session_id = query.request_session_id;
       const acceptedStates = this._pendingStates.get(scopes) || [];
-      if (!acceptedStates.includes(query.state)) {
+      if (!acceptedStates.includes(request_session_id)) {
         // A common scenario of this happening is if you:
         // 1. Trigger a sign in with one set of scopes
         // 2. Before finishing 1, you trigger a sign in with a different set of scopes
@@ -245,23 +248,16 @@ export class GridaServer implements IGridaServer {
         return;
       }
 
-      const url = `https://${AUTH_RELAY_SERVER}/token?code=${code}&state=${query.state}`;
-      console.info("Exchanging code for token...");
-
       try {
-        const result = await fetch(url, {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-          },
+        const result = await __auth_proxy.api._api_checkSessionAgain({
+          token: reqtoken(),
+          session: request_session_id,
         });
 
-        if (result.ok) {
-          const json: any = await result.json();
-          console.info("Token exchange success!");
-          resolve(json.access_token);
+        if (result) {
+          resolve(result.access_token!);
         } else {
-          reject(result.statusText);
+          reject("Authentication not completed on browser");
         }
       } catch (ex) {
         reject(ex);
@@ -269,14 +265,14 @@ export class GridaServer implements IGridaServer {
     };
 
   private getServerUri(path: string = "") {
-    const apiUri = vscode.Uri.parse("https://api.github.com");
+    const apiUri = vscode.Uri.parse("http://accounts.services.grida.co");
     return vscode.Uri.parse(`${apiUri.scheme}://${apiUri.authority}${path}`);
   }
 
   private updateStatusBarItem(isStart?: boolean) {
     if (isStart && !this._statusBarItem) {
       this._statusBarItem = vscode.window.createStatusBarItem(
-        "status.git.signIn",
+        "status.grida.signin",
         vscode.StatusBarAlignment.Left
       );
       this._statusBarItem.name = "Grida Sign-in";
@@ -321,28 +317,47 @@ export class GridaServer implements IGridaServer {
   public getUserInfo(
     token: string
   ): Promise<{ id: string; accountName: string }> {
-    return getUserInfo(token, this.getServerUri("/user"));
+    return getUserInfo(token, this.getServerUri("/profile"));
   }
+}
 
-  public async checkEnterpriseVersion(token: string): Promise<void> {
-    try {
-      const result = await fetch(this.getServerUri("/meta").toString(), {
-        headers: {
-          Authorization: `token ${token}`,
-          "User-Agent": "Visual-Studio-Code",
-        },
-      });
+// -===
 
-      if (!result.ok) {
-        return;
-      }
+const client_id = "vscode";
 
-      const json: {
-        verifiable_password_authentication: boolean;
-        installed_version: string;
-      } = (await result.json()) as any;
-    } catch {
-      // No-op
-    }
-  }
+const PROXY_AUTH_REQUEST_SECRET: string = process.env
+  .GRIDA_FIRST_PARTY_PROXY_AUTH_REQUEST_TOTP_SECRET as string;
+
+export async function startAuthenticationWithSession(
+  session: AuthProxySessionStartResult,
+  request: AuthProxySessionStartRequest
+) {
+  const result = await __auth_proxy.requesetProxyAuthWithSession(
+    PROXY_AUTH_REQUEST_SECRET,
+    session,
+    request
+  );
+
+  // TODO: save result
+
+  return result;
+}
+
+async function isNoCorsEnvironment(): Promise<boolean> {
+  const uri = await vscode.env.asExternalUri(
+    vscode.Uri.parse(`${vscode.env.uriScheme}://vscode.grida-vscode/dummy`)
+  );
+  return (
+    (uri.scheme === "https" &&
+      /^((insiders\.)?vscode|github)\./.test(uri.authority)) ||
+    (uri.scheme === "http" && /^localhost/.test(uri.authority))
+  );
+}
+
+function isTestEnvironment(url: vscode.Uri): boolean {
+  return url.authority.startsWith("localhost:");
+}
+
+function reqtoken() {
+  return totp.generate(PROXY_AUTH_REQUEST_SECRET);
 }
