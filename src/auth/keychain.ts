@@ -38,7 +38,7 @@ export class Keychain {
     try {
       const secret = await this.context.secrets.get(this.serviceId);
       if (secret && secret !== "[]") {
-        console.trace("Token acquired from secret storage.");
+        console.info("Token acquired from secret storage.");
       }
       return secret;
     } catch (e) {

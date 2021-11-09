@@ -158,7 +158,7 @@ export class GridaAuthenticationProvider
 
       setTimeout(() => this.afterTokenLoad(session.accessToken), 1000);
 
-      console.trace(
+      console.info(
         `Read the following session from the keychain with the following scopes: ${session.scopes}`
       );
       return {

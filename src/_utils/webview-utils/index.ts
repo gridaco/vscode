@@ -27,10 +27,15 @@ export function makeContainingHtml({
 				<title>${title}</title>
 			</head>
 			<body
-        style="width: ${wh(width)}; height: ${wh(height)}"
+        style="
+          width: ${wh(width)};
+          height: ${wh(height)};
+          margin: 0px;
+          padding: 0px;
+        "
       >
 				<iframe
-          style="width: ${wh(width)}; height: ${wh(height)}"
+          style="width: ${wh(width)}; height: ${wh(height)};"
           src="${src}"
           sandbox="${makesandbox(sandbox)}"
           frameBorder="0"
