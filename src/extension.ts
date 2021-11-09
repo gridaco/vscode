@@ -4,7 +4,7 @@ import * as vscode from "vscode";
 import { __register_auth_manager } from "./auth";
 import {
   GridaExplorerScenesProvider,
-  GridaExplorerHelpProvider,
+  __register_help_and_feedback,
   GridaExplorerPreviewProvider,
 } from "./grida-explorer";
 import { CodeEmbedVscodePanel } from "./panel-webview-embed";
@@ -18,8 +18,6 @@ export function activate(context: vscode.ExtensionContext) {
 
   // __register_auth_manager(context);
   // vscode.authentication.getSession("grida", [], {
-  //   clearSessionPreference: true,
-  //   createIfNone: true,
   // });
 
   // register grida explorer data provider
@@ -35,19 +33,7 @@ export function activate(context: vscode.ExtensionContext) {
     )
   );
 
-  // vscode.window.createWebviewPanel
-  const helpTreeView = vscode.window.createTreeView(
-    "grida-explorer-help-and-feedback",
-    {
-      treeDataProvider: new GridaExplorerHelpProvider(),
-    }
-  );
-
-  helpTreeView.onDidChangeSelection((e) => {
-    e.selection.forEach((item) => {
-      item.handleClick();
-    });
-  });
+  __register_help_and_feedback();
 }
 
 function __register_commands(context: vscode.ExtensionContext) {
