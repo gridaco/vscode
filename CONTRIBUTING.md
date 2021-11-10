@@ -37,3 +37,4 @@ Here you can find all the real world vscode extension examples by microsoft. - h
 - [Custom editor](https://github.com/microsoft/vscode-extension-samples/tree/main/custom-editor-sample)
 - [Github Pullrequests extension](https://github.com/microsoft/vscode-pull-request-github)
 - [TabNine](https://github.com/codota/TabNine) & [TabNine VSCode extension](https://github.com/codota/tabnine-vscode)
+- [VSCode extension monorepo setup with Lerna](https://github.com/IBM-Blockchain/blockchain-vscode-extension)
