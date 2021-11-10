@@ -52,6 +52,16 @@
   dependencies:
     axios "^0.21.0"
 
+"@design-sdk/figma-remote-api@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@design-sdk/figma-remote-api/-/figma-remote-api-0.0.2.tgz#6380437bb60bee62d296c2c3870817e294a20dfd"
+  integrity sha512-kiA9l+0IoBAHVUgXaf5tC6LqxiVFFdYHASYChEFifyPj71EE2NKyzU9MW1Liuds1KzlBZxVu0N73EPCBWpBf4g==
+
+"@design-sdk/figma-remote-types@^0.0.5":
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/@design-sdk/figma-remote-types/-/figma-remote-types-0.0.5.tgz#df11049c02eb48a15b30d1e8bdafee66bc5160e6"
+  integrity sha512-I2Kk+jlN0jZWRVJDKNUXWpH03KuyaQiGr+LS3LN6Y4W1JGhTTjqzZIc44LNjNFLFAMxZLWs4Tuv188dB5qN7GQ==
+
 "@eslint/eslintrc@^0.2.2":
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/@eslint/eslintrc/-/eslintrc-0.2.2.tgz#d01fc791e2fc33e88a29d6f3dc7e93d0cd784b76"

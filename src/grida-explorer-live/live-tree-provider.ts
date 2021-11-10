@@ -1,7 +1,8 @@
 import * as vscode from "vscode";
 import * as path from "path";
 import { LiveSessionManager } from "./live-session-manager";
-
+import { Client } from "@design-sdk/figma-remote-api";
+import { chdir } from "process";
 export class GridaExplorerLiveTreeProvider
   implements vscode.TreeDataProvider<NodeItem>
 {
@@ -15,6 +16,10 @@ export class GridaExplorerLiveTreeProvider
 
   private _liveSessionManager: LiveSessionManager;
   private _liveLastSelection: { node: string; filekey: string } | undefined;
+  private _apiclient = Client({
+    personalAccessToken: process.env
+      .DEV_ONLY_FIGMA_PERSONAL_ACCESS_TOKEN as string,
+  });
   constructor() {
     this._liveSessionManager = LiveSessionManager.Instance;
     this._liveSessionManager.provideAuthentication(
@@ -49,58 +54,169 @@ export class GridaExplorerLiveTreeProvider
 
   getChildren(element?: NodeItem): Thenable<NodeItem[]> {
     if (element) {
-      return Promise.resolve([]);
+      if (this._liveLastSelection) {
+        return Promise.resolve(
+          this.fetchChildren(this._liveLastSelection.filekey, element.nodeid)
+        );
+      }
     } else {
       if (this._liveLastSelection) {
-        return Promise.resolve([
-          new FrameNodeItem(
-            this._liveLastSelection.node,
-            vscode.TreeItemCollapsibleState.Collapsed
-          ),
-        ]);
-      }
+        // this._liveLastSelection
 
-      return Promise.resolve([]);
+        return Promise.resolve(
+          this.fetch(
+            this._liveLastSelection.filekey,
+            this._liveLastSelection.node
+          )
+        );
+      }
+    }
+    return Promise.resolve([]);
+  }
+
+  async fetch(filekey: string, ...nodes: string[]): Promise<NodeItem[]> {
+    const res = await this._apiclient.fileNodes(filekey, {
+      ids: nodes,
+      depth: 1,
+    });
+
+    const imagemap = await this.fetchPreviewImage(...nodes);
+
+    return Object.keys(res.data.nodes).map((key) => {
+      const nodedata = res.data.nodes[key];
+      const node = nodedata!.document;
+      // fetch image - fetchPreviewImage
+      return new NodeItem({
+        nodeid: node.id,
+        type: node.type,
+        name: node.name,
+        previewImage: imagemap?.[node.id],
+        collapsibleState: vscode.TreeItemCollapsibleState.Collapsed,
+      });
+    });
+  }
+
+  async fetchChildren(filekey: string, parent: string): Promise<NodeItem[]> {
+    const res = await this._apiclient.fileNodes(filekey, {
+      ids: [parent],
+      depth: 1,
+    });
+    const parentNode = res.data.nodes![parent]!.document;
+    if ("children" in parentNode) {
+      // fetch image - fetchPreviewImage
+      const imagemap = await this.fetchPreviewImage(
+        ...parentNode.children?.map((child) => child.id)
+      );
+
+      return parentNode.children?.map((child) => {
+        const node = child;
+        return new NodeItem({
+          nodeid: node.id,
+          type: node.type,
+          name: node.name,
+          previewImage: imagemap?.[node.id],
+          collapsibleState: vscode.TreeItemCollapsibleState.Collapsed,
+        });
+      });
+    } else {
+      return [];
+    }
+  }
+
+  async fetchPreviewImage(...nodes: string[]) {
+    try {
+      if (nodes.length > 0) {
+        const res = await this._apiclient.fileImages(
+          this._liveLastSelection!.filekey,
+          {
+            ids: nodes,
+          }
+        );
+        return res.data.images ?? {};
+      }
+    } catch (e) {
+      return {};
     }
   }
 }
 
-abstract class NodeItem extends vscode.TreeItem {
-  constructor(
-    public readonly label: string,
-    private type: string,
-    public readonly collapsibleState: vscode.TreeItemCollapsibleState
-  ) {
-    super(label, collapsibleState);
-    this.tooltip = `${this.label}-${this.type}`;
+class NodeItem extends vscode.TreeItem {
+  public readonly collapsibleState: vscode.TreeItemCollapsibleState;
+  public readonly nodeid: string;
+  public readonly name: string;
+  public readonly type: string;
+  public readonly previewImage: string | undefined = undefined;
+
+  constructor({
+    nodeid,
+    name,
+    type,
+    previewImage,
+    collapsibleState,
+  }: {
+    nodeid: string;
+    name: string;
+    type: string;
+    previewImage?: string;
+    collapsibleState: vscode.TreeItemCollapsibleState;
+  }) {
+    super(name, collapsibleState);
+    this.id = nodeid;
+    this.nodeid = nodeid;
+    this.name = name;
+    this.type = type;
+    this.previewImage = previewImage;
+    //
+
+    this.collapsibleState = can_have_children(this.type)
+      ? collapsibleState
+      : vscode.TreeItemCollapsibleState.None;
+
+    this.tooltip = this.markdown;
     this.description = this.type;
   }
-}
 
-class FrameNodeItem extends NodeItem {
-  constructor(
-    public readonly label: string,
-    public readonly collapsibleState: vscode.TreeItemCollapsibleState
-  ) {
-    super(label, "frame", collapsibleState);
+  // TODO: provide correct icon per types
+  iconPath = this.previewImage && vscode.Uri.parse(this.previewImage);
+
+  get markdown() {
+    const _tooltip_markdown = new vscode.MarkdownString(
+      `
+**${this.name}**
+
+type: \`${this.type}\`
+
+${
+  this.type === "TEXT"
+    ? `\`\`\`txt
+${this.name}
+\`\`\``
+    : `
+${
+  this.previewImage
+    ? `<img src="${this.previewImage}" alt="Preview of ${this.label}" style="height: 100px; width:100px;"/>`
+    : ""
+}
+`
+}
+`
+    );
+
+    _tooltip_markdown.supportThemeIcons = true;
+    _tooltip_markdown.supportHtml = true;
+    _tooltip_markdown.isTrusted = true;
+    return _tooltip_markdown;
   }
-
-  iconPath = {
-    light: path.join(
-      __filename,
-      "..",
-      "..",
-      "resources",
-      "light",
-      "dependency.svg"
-    ),
-    dark: path.join(
-      __filename,
-      "..",
-      "..",
-      "resources",
-      "dark",
-      "dependency.svg"
-    ),
-  };
 }
+
+const can_have_children = (type: string) => {
+  switch (type) {
+    case "COMPONENT":
+    case "INSTANCE":
+    case "FRAME":
+    case "GROUP":
+      return true;
+    default:
+      return false;
+  }
+};
