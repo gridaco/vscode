@@ -6,6 +6,7 @@ import {
   GridaExplorerScenesProvider,
   __register_help_and_feedback,
   GridaExplorerPreviewProvider,
+  GridaExplorerLiveTreeProvider,
 } from "./grida-explorer";
 import { CodeEmbedVscodePanel } from "./panel-webview-embed";
 import { __register_v_doc } from "./virtual";
@@ -26,6 +27,19 @@ export function activate(context: vscode.ExtensionContext) {
   vscode.window.registerTreeDataProvider(
     "grida-explorer-project-scenes",
     new GridaExplorerScenesProvider(vscode.workspace.rootPath as string)
+  );
+
+  vscode.authentication.onDidChangeSessions((e) => {
+    if (e.provider.id === "grida") {
+      console.log("session changed", e);
+      // register after-auth initalization here.
+    }
+  });
+
+  vscode.window.registerTreeDataProvider(
+    "grida-explorer-live",
+    // "live" uses singleton
+    GridaExplorerLiveTreeProvider.Instance
   );
 
   context.subscriptions.push(

@@ -124,7 +124,7 @@
 			},
 			{
 				"view": "grida-explorer-live",
-				"contents": "From Live, you can instantly integrate your design selection into your workspace. Select your design from Figma via Assistant\n- [Open Figma](https://figma.com/files)\n- [Install Assistant](https://www.figma.com/community/plugin/896445082033423994/)\n[Learn how](command:grida.signin)\n[Refresh](command:grida.signin)"
+				"contents": "From Live, you can instantly integrate your design selection into your workspace. Select your design from Figma via Assistant\n[Open Figma](https://figma.com/files), [Install Assistant](https://www.figma.com/community/plugin/896445082033423994/), Select a node.\n[Learn how](command:grida.signin)"
 			}
 		],
 		"menus": {

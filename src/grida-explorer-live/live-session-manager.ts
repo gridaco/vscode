@@ -1,4 +1,5 @@
-import Pusher from "pusher-js";
+// import Pusher from "pusher-js";
+const Pusher = require("pusher-js");
 
 const _base_url =
   "https://ahzdf5x4q3.execute-api.us-west-1.amazonaws.com/production"; // "https://assistant-live-session.grida.cc";
@@ -13,16 +14,29 @@ const pusher = new Pusher(
 );
 
 export class LiveSessionManager {
-  constructor(private readonly userid: string) {}
+  // region singleton
+  private static _instance: LiveSessionManager;
 
-  public async enterSession() {
-    // subscribe once wheb the page is loaded
-    // TODO: update channel name with userid
-    const subscription = pusher.subscribe("private-live-session"); // channel
-    subscription.bind("client-select", (d: any) => {
-      console.log("event from assistant", d);
-      // setFilekey(d.filekey);
-      // setNodeid(d.node);
-    });
+  public static get Instance() {
+    return this._instance || (this._instance = new this());
+  }
+  // endregion singleton
+
+  constructor() {}
+
+  private userid: string | undefined;
+  provideAuthentication(userid: string) {
+    this.userid = userid;
+  }
+
+  onSelection(callback: (d: any) => void) {
+    if (!this.userid) {
+      return;
+    }
+
+    const subscription = pusher.subscribe(
+      `private-live-session-${this.userid}`
+    ); // channel
+    subscription.bind("client-select", callback);
   }
 }
