@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      try {
+        const vscode = acquireVsCodeApi(); // acquireVsCodeApi can only be invoked once
+        vscode.postMessage({ message: "vscode-side-host-loaded" });
+      } catch (e) {}
+
+      window.onload = () => {
+        try {
+          var iframe = document.getElementById("iframe");
+          let doc = iframe.contentWindow || iframe.contentDocument;
+          // inner iframe event to vscode
+          if (doc.document) {
+            doc = doc.document;
+            doc.body.addEventListener("message", (e) => {
+              vscode.postMessage({ message: e });
+              if (e.data.__signature) {
+              }
+            });
+          }
+        } catch (e) {
+          console.error("error", e);
+        }
+
+        // vscode event to inner iframe
+        window.addEventListener("message", (e) => {
+          if (e.data.__signature) {
+            iframe.contentWindow.postMessage(e.data, "*");
+          }
+        });
+      };
+    </script>
+    <title>Iframe Title</title>
+  </head>
+  <body style="width: 100vw; height: 100vh; margin: 0px; padding: 0px">
+    <iframe
+      id="iframe"
+      style="width: 100vw; height: 100vh"
+      src="http://localhost:6626/embed/vscode/grida-explorer-preview"
+      sandbox="allow-same-origin allow-scripts allow-forms allow-pointer-lock allow-popups allow-modals allow-presentation allow-top-navigation allow-downloads"
+      frameborder="0"
+    ></iframe>
+  </body>
+</html>

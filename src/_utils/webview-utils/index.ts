@@ -6,8 +6,7 @@ export function makeContainingHtml({
   sandbox = {
     "allow-same-origin": true,
     "allow-scripts": true,
-    "clipboard-read": true,
-    "clipboard-write": true,
+    "allow-downloads": true,
   },
 }: {
   title?: string;
@@ -25,21 +24,33 @@ export function makeContainingHtml({
 				<meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script>
           const vscode = acquireVsCodeApi(); // acquireVsCodeApi can only be invoked once
-          vscode.postMessage({ message: 'vscode-side-host-loaded' })
+          vscode.postMessage({ __signature: 'vscode-side-host-loaded' })
           
-          // TODO: make this work
-          // var iframe = document.getElementsByTagName('iframe')[0],
-          // iframe.onLoad = function() {
-          //   let iDoc = iframe.contentWindow || iframe.contentDocument;
-          //   if (iDoc.document) {
-          //     iDoc = iDoc.document;
-          //     iDoc.body.addEventListener('message', (e) => {
-          //       vscode.postMessage({ message: e });
-          //       if (e.data.__signature){
-          //       }
-          //     });
-          //   };
-          // }
+          window.onload = () => {
+            try {
+              var iframe = document.getElementById("iframe");
+              let doc = iframe.contentWindow || iframe.contentDocument;
+              // inner iframe event to vscode
+              if (doc.document) {
+                doc = doc.document;
+                doc.body.addEventListener("message", (e) => {
+                  vscode.postMessage({ message: e });
+                  if (e.data.__signature) {
+                  }
+                });
+              }
+            } catch (e) {
+              console.error("error", e);
+            }
+
+            // vscode event to inner iframe
+            window.addEventListener("message", (e) => {
+              if (e.data.__signature) {
+                iframe.contentWindow.postMessage(e.data, "*");
+              }
+            });
+          };
+          
         </script>
 				<title>${title}</title>
 			</head>
@@ -71,8 +82,7 @@ interface IframeSandboxOptions {
   "allow-modals"?: boolean | undefined;
   "allow-presentation"?: boolean | undefined;
   "allow-top-navigation"?: boolean | undefined;
-  "clipboard-read"?: boolean | undefined;
-  "clipboard-write"?: boolean | undefined;
+  "allow-downloads"?: boolean | undefined;
 }
 
 function makesandbox(so: IframeSandboxOptions): string {
