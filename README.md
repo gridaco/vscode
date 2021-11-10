@@ -20,16 +20,6 @@ Install vscode extension [from here](https://marketplace.visualstudio.com/items?
 - asset management mode
 - project inspection mode
 
-## Development
-
-install vscode & setup dev environment
-
-**[installation guideline (vscode official)](https://code.visualstudio.com/api/get-started/your-first-extension)**
-
-```shell
-npm install -g yo generator-code
-```
-
 ## Roadmap
 
 - built in [g11n](https://github.com/bridgedxyz/g11n) support (also supported by [chrome-extension](https://github.com/bridgedxyz/chrome-extension))
