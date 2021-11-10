@@ -6,8 +6,15 @@
   "homepage": "https://grida.co/vscode",
   "repository": "https://github.com/gridaco/vscode-extension",
   "private": true,
+  "scripts": {
+    "checkout:all": "git submodule update --init --recursive"
+  },
   "workspaces": [
     "extension",
-    "packages/*"
+    "packages/*",
+    "externals/design-to-code/packages/*",
+    "externals/design-to-code/externals/coli/packages/*",
+    "externals/design-to-code/externals/reflect-core/packages/*",
+    "externals/design-to-code/externals/design-sdk/*"
   ]
 }
