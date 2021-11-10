@@ -23,7 +23,24 @@ export function makeContainingHtml({
 			<head>
 				<meta charset="UTF-8">
 				<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+        <script>
+          const vscode = acquireVsCodeApi(); // acquireVsCodeApi can only be invoked once
+          vscode.postMessage({ message: 'vscode-side-host-loaded' })
+          
+          // TODO: make this work
+          // var iframe = document.getElementsByTagName('iframe')[0],
+          // iframe.onLoad = function() {
+          //   let iDoc = iframe.contentWindow || iframe.contentDocument;
+          //   if (iDoc.document) {
+          //     iDoc = iDoc.document;
+          //     iDoc.body.addEventListener('message', (e) => {
+          //       vscode.postMessage({ message: e });
+          //       if (e.data.__signature){
+          //       }
+          //     });
+          //   };
+          // }
+        </script>
 				<title>${title}</title>
 			</head>
 			<body
@@ -35,6 +52,7 @@ export function makeContainingHtml({
         "
       >
 				<iframe
+          id="iframe"
           style="width: ${wh(width)}; height: ${wh(height)};"
           src="${src}"
           sandbox="${makesandbox(sandbox)}"

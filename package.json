@@ -53,8 +53,16 @@
 				}
 			},
 			{
+				"command": "grida-explorer.switch-workspace",
+				"title": "Switch Grida Workspace"
+			},
+			{
 				"command": "grida-explorer.add",
 				"title": "Add"
+			},
+			{
+				"command": "grida-explorer.open-in-grida",
+				"title": "Open in Grida"
 			},
 			{
 				"command": "grida-explorer.edit",
@@ -128,6 +136,10 @@
 				},
 				{
 					"command": "grida-explorer.add",
+					"when": "view == grida-explorer-project-scenes"
+				},
+				{
+					"command": "grida-explorer.switch-workspace",
 					"when": "view == grida-explorer-project-scenes"
 				}
 			],
