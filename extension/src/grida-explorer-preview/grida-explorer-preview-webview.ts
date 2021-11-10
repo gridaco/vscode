@@ -4,11 +4,17 @@ import { webview_utils } from "../_utils";
 export class GridaExplorerPreviewProvider
   implements vscode.WebviewViewProvider
 {
+  // region singleton
+  private static _instance: GridaExplorerPreviewProvider;
+
+  public static get Instance() {
+    return this._instance || (this._instance = new this());
+  }
+  // endregion singleton
+
   public static readonly viewType = "grida-explorer-preview";
 
   private _view?: vscode.WebviewView;
-
-  constructor(private readonly _extensionUri: vscode.Uri) {}
 
   public resolveWebviewView(
     webviewView: vscode.WebviewView,
@@ -20,7 +26,6 @@ export class GridaExplorerPreviewProvider
     webviewView.webview.options = {
       // Allow scripts in the webview
       enableScripts: true,
-      localResourceRoots: [this._extensionUri],
     };
 
     webviewView.webview.html = this._getHtmlForWebview(webviewView.webview);
@@ -30,7 +35,7 @@ export class GridaExplorerPreviewProvider
 
       if (data.__signature === "vscode-side-host-loaded") {
         setTimeout(() => {
-          this.updatePreview();
+          // this.updatePreview(); // TODO: update preview with last selection cache if possible.
         }, 1000);
       }
 
@@ -44,12 +49,12 @@ export class GridaExplorerPreviewProvider
     });
   }
 
-  public updatePreview() {
+  public updatePreview(srcDoc: string) {
     this._commandToWebview({
       type: "update-preview",
       preview: {
         id: "",
-        srcDoc: "Hello from vscode",
+        srcDoc: srcDoc,
         size: {
           width: 375,
           height: 812,
@@ -83,7 +88,7 @@ export class GridaExplorerPreviewProvider
 
   private _getHtmlForWebview(webview: vscode.Webview) {
     return webview_utils.makeContainingHtml({
-      src: "http://localhost:6626/embed/vscode/grida-explorer-preview",
+      src: "https://code.grida.co/embed/vscode/grida-explorer-preview",
       height: "100vh",
     });
   }
