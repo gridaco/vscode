@@ -90,6 +90,8 @@ export class GridaExplorerLiveTreeProvider
         nodeid: node.id,
         type: node.type,
         name: node.name,
+        data: node,
+        filekey: filekey,
         previewImage: imagemap?.[node.id],
         collapsibleState: vscode.TreeItemCollapsibleState.Collapsed,
       });
@@ -114,6 +116,8 @@ export class GridaExplorerLiveTreeProvider
           nodeid: node.id,
           type: node.type,
           name: node.name,
+          data: node,
+          filekey: filekey,
           previewImage: imagemap?.[node.id],
           collapsibleState: vscode.TreeItemCollapsibleState.Collapsed,
         });
