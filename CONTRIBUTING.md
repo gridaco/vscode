@@ -12,10 +12,10 @@ Learn more at [publishing-extension](https://code.visualstudio.com/api/working-w
 
 ```sh
 npm install -g vsce
-vsce login bridged
-vsce publish
+vsce login grida
+vsce publish --yarn
 # or with auto version up
-vsce publish minor
+vsce publish minor --yarn
 ```
 
 ## Tips (that no one tells you)
