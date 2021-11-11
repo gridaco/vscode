@@ -37,6 +37,12 @@
 		"onView:grida-explorer-preview"
 	],
 	"main": "./dist/extension.js",
+	"capabilities": {
+		"virtualWorkspaces": true,
+		"untrustedWorkspaces": {
+			"supported": true
+		}
+	},
 	"contributes": {
 		"authentication": [
 			{

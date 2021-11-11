@@ -9,10 +9,9 @@ export enum AuthProviderType {
 }
 
 interface SessionData {
-  id: string;
+  id: string; // not a userid, a locally generated id.
   account?: {
-    label?: string;
-    displayName?: string;
+    username?: string;
     id: string;
   };
   scopes: string[];
@@ -77,9 +76,11 @@ export class GridaAuthenticationProvider
       : sessions;
 
     console.info(
+      // e.g. Got 1 sessions for all scopes...
       `Got ${finalSessions.length} sessions for ${
         scopes?.join(",") || "all scopes"
-      }...`
+      }...`,
+      finalSessions
     );
     return finalSessions;
   }
@@ -141,7 +142,7 @@ export class GridaAuthenticationProvider
     }
 
     const sessionPromises = sessionData.map(async (session: SessionData) => {
-      let userInfo: { id: string; accountName: string } | undefined;
+      let userInfo: { id: string; username: string } | undefined;
       if (!session.account) {
         try {
           userInfo = await this._server.getUserInfo(session.accessToken);
@@ -165,11 +166,9 @@ export class GridaAuthenticationProvider
         id: session.id,
         account: {
           label: session.account
-            ? session.account.label ??
-              session.account.displayName ??
-              "<unknown>"
-            : userInfo?.accountName ?? "<unknown>",
-          id: session.account?.id ?? userInfo?.id ?? "<unknown>",
+            ? session.account.username ?? "Signed in"
+            : userInfo?.username ?? "Signed in",
+          id: session.account?.id ?? userInfo?.id ?? "Signed in",
         },
         scopes: session.scopes,
         accessToken: session.accessToken,
@@ -202,7 +201,7 @@ export class GridaAuthenticationProvider
     console.info(`Storing ${sessions.length} sessions...`);
     this._sessionsPromise = Promise.resolve(sessions);
     await this._keychain.setToken(JSON.stringify(sessions));
-    console.info(`Stored ${sessions.length} sessions!`);
+    console.info(`Stored ${sessions.length} sessions!`, sessions);
   }
 
   public async createSession(
@@ -254,7 +253,7 @@ export class GridaAuthenticationProvider
     return {
       id: uuid(),
       accessToken: token,
-      account: { label: userInfo.accountName, id: userInfo.id },
+      account: { label: userInfo.username, id: userInfo.id },
       scopes,
     };
   }

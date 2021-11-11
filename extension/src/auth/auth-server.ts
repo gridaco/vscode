@@ -40,7 +40,7 @@ function parseQuery(uri: vscode.Uri) {
 
 export interface IGridaServer extends vscode.Disposable {
   login(scopes: string): Promise<string>;
-  getUserInfo(token: string): Promise<{ id: string; accountName: string }>;
+  getUserInfo(token: string): Promise<{ id: string; username: string }>;
   friendlyName: string;
 }
 
@@ -75,7 +75,7 @@ async function getScopes(
 async function getUserInfo(
   token: string,
   serverUri: vscode.Uri
-): Promise<{ id: string; accountName: string }> {
+): Promise<{ id: string; username: string }> {
   let result: Response;
   try {
     console.info("Getting user info...");
@@ -95,7 +95,7 @@ async function getUserInfo(
   if (result.ok) {
     const json = (await result.json()) as any;
     console.info("Got account info!");
-    return { id: json.id, accountName: json.login };
+    return { id: json.id, username: json.username };
   } else {
     console.error(`Getting account info failed: ${result.statusText}`);
     throw new Error(result.statusText);
@@ -140,37 +140,6 @@ export class GridaServer implements IGridaServer {
         `${vscode.env.uriScheme}://grida.grida-vscode/did-authenticate`
       )
     );
-
-    if (isTestEnvironment(callbackUri)) {
-      const token = await vscode.window.showInputBox({
-        prompt: "Grida Personal Access Token",
-        ignoreFocusOut: true,
-      });
-      if (!token) {
-        throw new Error("Sign in failed: No token provided");
-      }
-
-      const tokenScopes = await getScopes(token, this.getServerUri("/")); // Example: ['repo', 'user']
-      const scopesList = scopes.split(" "); // Example: 'read:user repo user:email'
-      if (
-        !scopesList.every((scope) => {
-          const included = tokenScopes.includes(scope);
-          if (included || !scope.includes(":")) {
-            return included;
-          }
-
-          return scope.split(":").some((splitScopes) => {
-            return tokenScopes.includes(splitScopes);
-          });
-        })
-      ) {
-        throw new Error(
-          `The provided token does not match the requested scopes: ${scopes}`
-        );
-      }
-
-      return token;
-    }
 
     this.updateStatusBarItem(true);
 
@@ -314,9 +283,7 @@ export class GridaServer implements IGridaServer {
     this._uriHandler.handleUri(vscode.Uri.parse(uri.trim()));
   }
 
-  public getUserInfo(
-    token: string
-  ): Promise<{ id: string; accountName: string }> {
+  public getUserInfo(token: string): Promise<{ id: string; username: string }> {
     return getUserInfo(token, this.getServerUri("/profile"));
   }
 }
