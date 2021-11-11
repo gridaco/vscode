@@ -49,27 +49,39 @@ export class GridaExplorerPreviewProvider
     });
   }
 
-  public updatePreview(srcDoc: string) {
+  public updatePreview({
+    id = "no-id",
+    srcDoc,
+    size = { width: 375, height: 812 },
+  }: {
+    srcDoc: string;
+    id?: string;
+    size?: { width: number; height: number };
+  }) {
     this._commandToWebview({
       type: "update-preview",
       preview: {
-        id: "",
+        id: id,
         srcDoc: srcDoc,
-        size: {
-          width: 375,
-          height: 812,
-        },
+        size: size,
       },
     });
   }
 
-  private _commandToWebview(command: any) {
+  private _commandToWebview(command: { type: string; [key: string]: any }) {
     if (this._view) {
       this._view.webview.postMessage({
         __signature: "event-from-client",
         payload: command,
       });
     }
+  }
+
+  public loading(isLoading: boolean) {
+    this._commandToWebview({
+      type: "set-loading",
+      isLoading: isLoading,
+    });
   }
 
   public focus() {

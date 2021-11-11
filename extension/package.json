@@ -12,7 +12,17 @@
 		"vscode": "^1.62.0"
 	},
 	"categories": [
-		"Other"
+		"Other",
+		"Visualization"
+	],
+	"keywords": [
+		"Grida",
+		"Figma",
+		"Sketch",
+		"React",
+		"Design to code",
+		"Typescript",
+		"Frontend tools"
 	],
 	"activationEvents": [
 		"onAuthenticationRequest:grida",

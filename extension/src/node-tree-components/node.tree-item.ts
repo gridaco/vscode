@@ -10,9 +10,15 @@ import {
   MainImageRepository,
 } from "@design-sdk/core/assets-repository";
 import { RemoteImageRepositories } from "@design-sdk/figma-remote/lib/asset-repository/image-repository";
-import { mapper } from "@design-sdk/figma-remote";
-import { convert } from "@design-sdk/figma-node-conversion";
+import { configure_auth_credentials } from "@design-sdk/figma-remote/lib/configure-auth-credentials";
 import { fetch } from "@design-sdk/figma-remote";
+
+const FIGMA_PERSONAL_ACCESS_TOKEN = process.env
+  .DEV_ONLY_FIGMA_PERSONAL_ACCESS_TOKEN as string;
+
+configure_auth_credentials({
+  personalAccessToken: FIGMA_PERSONAL_ACCESS_TOKEN,
+});
 
 export class NodeItem extends vscode.TreeItem {
   public readonly collapsibleState: vscode.TreeItemCollapsibleState;
@@ -99,31 +105,24 @@ ${
       )
     );
 
-    console.log("args", {
-      file: this.filekey,
-      node: this.nodeid,
-      auth: {
-        personalAccessToken: process.env
-          .DEV_ONLY_FIGMA_PERSONAL_ACCESS_TOKEN as string,
-      },
-    });
+    GridaExplorerPreviewProvider.Instance.loading(true);
 
     fetch
       .fetchTargetAsReflect({
         file: this.filekey,
         node: this.nodeid,
         auth: {
-          personalAccessToken: process.env
-            .DEV_ONLY_FIGMA_PERSONAL_ACCESS_TOKEN as string,
+          personalAccessToken: FIGMA_PERSONAL_ACCESS_TOKEN,
         },
       })
       .then((res) => {
+        const entity = res.reflect!;
         try {
           designToCode({
             input: {
               id: this.nodeid,
               name: this.name,
-              entry: res.reflect!,
+              entry: entity,
             },
             build_config: {
               ...config.default_build_configuration,
@@ -132,13 +131,21 @@ ${
             framework: vanilla_presets.vanilla_default,
             asset_config: { asset_repository: MainImageRepository.instance },
           }).then((result) => {
-            GridaExplorerPreviewProvider.Instance.updatePreview(
-              result.scaffold.raw
-            );
+            GridaExplorerPreviewProvider.Instance.updatePreview({
+              srcDoc: result.scaffold.raw,
+              id: this.nodeid,
+              size: {
+                width: entity.width,
+                height: entity.height,
+              },
+            });
           });
         } catch (e) {
           console.error(e);
         }
+      })
+      .finally(() => {
+        GridaExplorerPreviewProvider.Instance.loading(false);
       });
   }
 }
