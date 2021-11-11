@@ -36,16 +36,20 @@ export function activate(context: vscode.ExtensionContext) {
     }
   });
 
-  vscode.window.registerTreeDataProvider(
-    "grida-explorer-live",
+  const liveTreeView = vscode.window.createTreeView("grida-explorer-live", {
     // "live" uses singleton
-    GridaExplorerLiveTreeProvider.Instance
-  );
+    treeDataProvider: GridaExplorerLiveTreeProvider.Instance,
+  });
+  liveTreeView.onDidChangeSelection((e) => {
+    e.selection.forEach((item) => {
+      item.handleClick();
+    });
+  });
 
   context.subscriptions.push(
     vscode.window.registerWebviewViewProvider(
       GridaExplorerPreviewProvider.viewType,
-      new GridaExplorerPreviewProvider(context.extensionUri)
+      GridaExplorerPreviewProvider.Instance
     )
   );
 
