@@ -88,12 +88,15 @@ ${
     })
       .then((result) => {
         GridaExplorerPreviewProvider.Instance.updatePreview({
-          srcDoc: result.scaffold.raw,
           id: this.nodeid,
-          size: {
-            width: result.entity.width,
-            height: result.entity.height,
+          vanilla: {
+            srcDoc: result.scaffold.raw,
+            size: {
+              width: result.entity.width,
+              height: result.entity.height,
+            },
           },
+          code: result,
         });
       })
       .finally(() => {

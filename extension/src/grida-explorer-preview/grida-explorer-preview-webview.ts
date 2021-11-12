@@ -1,6 +1,16 @@
 import * as vscode from "vscode";
 import { GRIDA_VDOC_SCHEME } from "../k";
 import { webview_utils } from "../_utils";
+import { Result } from "@designto/code";
+import { dangerously_provide_next_document_content } from "../virtual";
+interface PreviewableCodeResult {
+  id?: string;
+  vanilla: {
+    srcDoc: string;
+    size?: { width: number; height: number };
+  };
+  code: Result;
+}
 
 export class GridaExplorerPreviewProvider
   implements vscode.WebviewViewProvider
@@ -16,6 +26,8 @@ export class GridaExplorerPreviewProvider
   public static readonly viewType = "grida-explorer-preview";
 
   private _view?: vscode.WebviewView;
+
+  private _preview: PreviewableCodeResult;
 
   public resolveWebviewView(
     webviewView: vscode.WebviewView,
@@ -52,19 +64,16 @@ export class GridaExplorerPreviewProvider
 
   public updatePreview({
     id = "no-id",
-    srcDoc,
-    size = { width: 375, height: 812 },
-  }: {
-    srcDoc: string;
-    id?: string;
-    size?: { width: number; height: number };
-  }) {
+    vanilla = { size: { width: 375, height: 812 }, srcDoc: undefined },
+    ...others
+  }: PreviewableCodeResult) {
+    this._preview = { id, vanilla, ...others };
     this._commandToWebview({
       type: "update-preview",
       preview: {
         id: id,
-        srcDoc: srcDoc,
-        size: size,
+        srcDoc: vanilla.srcDoc,
+        size: vanilla.size,
       },
     });
   }
@@ -107,9 +116,15 @@ export class GridaExplorerPreviewProvider
   }
 
   public async openInEditor() {
+    if (!this._preview) {
+      vscode.window.showWarningMessage(
+        "Can't open editor. no preview is provided."
+      );
+    }
     const uri = vscode.Uri.parse(
-      GRIDA_VDOC_SCHEME + ":" + "docs-annotation.example.tsx"
+      GRIDA_VDOC_SCHEME + ":" + "[Preview] preview.html"
     );
+    dangerously_provide_next_document_content(this._preview.code.scaffold.raw);
     const doc = await vscode.workspace.openTextDocument(uri);
     await vscode.window.showTextDocument(doc, { preview: false });
     // opens up with the content via v-doc
