@@ -321,20 +321,28 @@
     "@babel/helper-validator-identifier" "^7.15.7"
     to-fast-properties "^2.0.0"
 
-"@base-sdk-fp/auth@^0.1.0-7":
-  version "0.1.0-7"
-  resolved "https://registry.yarnpkg.com/@base-sdk-fp/auth/-/auth-0.1.0-7.tgz#5f7804dde7d3009ee67b32ea8c7c00f2d7ccf65d"
-  integrity sha512-0SVSu9n3ksm5hFspKkEETiBDwO5CfXh25tCfn4aK+iUqeisg085VgMpjn8AdLLKQph/v5Zxnn/wNeXzaK4aYEA==
+"@base-sdk-fp/accounts@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@base-sdk-fp/accounts/-/accounts-0.0.2.tgz#2c1652b028fb504220feaa139a422ed735108cda"
+  integrity sha512-gZtB5hMItrxxz2i3hHuwX4fbpqF6DYvYAoob0xLYvjwh2ZUiisjfyT/SmUKmEQ6OnzII9fNBnk5g/LkPzb0xwQ==
   dependencies:
-    "@base-sdk-fp/core" "0.0.1"
+    "@base-sdk-fp/core" "0.0.3"
+    "@base-sdk/core" "0.1.0-1"
+
+"@base-sdk-fp/auth@^0.1.0-8":
+  version "0.1.0-8"
+  resolved "https://registry.yarnpkg.com/@base-sdk-fp/auth/-/auth-0.1.0-8.tgz#c149265046cb2301d07262e26c0e717db9c34651"
+  integrity sha512-DGcj7KqJnNASQ6O8kqimeGm2zolPR4Kg5mQXxyBbDyUE1VmNdt0qdf7lY9rwPyRxSnybDZ7aSs7mj1Cb3at/RQ==
+  dependencies:
+    "@base-sdk-fp/core" "0.0.3"
     "@base-sdk/core" "0.1.0-2"
     axios-retry "^3.1.9"
     otplib "^12.0.1"
 
-"@base-sdk-fp/core@0.0.1":
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/@base-sdk-fp/core/-/core-0.0.1.tgz#6f529041dde5fd6b360f1a73408586c174f34acc"
-  integrity sha512-3t9vq9avY52PTSNApXf+5hq12Y/uBVtuLt9m9Ps0VT5PZE5ZjmZhI517z2HHt7gzwG4IntceneJdbn9/qQiSEQ==
+"@base-sdk-fp/core@0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@base-sdk-fp/core/-/core-0.0.3.tgz#8b180f6c309bc001bedf5454735003bea8dec3d1"
+  integrity sha512-wotIUXt9c0O5mqHecju+2hvvWJquCGqecdEmpRNJT6j/aXwtzEC7Ar8icmfkV61zqDmJXB3i1GxyM+AKXMrRiQ==
 
 "@base-sdk/base@0.1.0-5":
   version "0.1.0-5"
@@ -361,6 +369,14 @@
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/@base-sdk/core/-/core-0.1.0.tgz#865eb7373b77d367dd57dc7660452a889d6bb139"
   integrity sha512-JDSgW8OXIj9bpkCZiSZZ4vlDaN+8bZplvCgpkS5yFKbvYlxAFRsAF6AKTxfLu0bGZIxnwt7ZIgDLoPyz4rPtjg==
+  dependencies:
+    "@reflect-ui/core" "0.0.2-rc.7"
+    axios "^0.21.0"
+
+"@base-sdk/core@0.1.0-1":
+  version "0.1.0-1"
+  resolved "https://registry.yarnpkg.com/@base-sdk/core/-/core-0.1.0-1.tgz#0cc7102a658caa2e783586f7fb705574711f0072"
+  integrity sha512-FRI5tUq4fr3TU5b077O9gGXrZgAll71wtc+mBPN644xVsntnluMvrbLoCRJd8z5Zp98avkbxkulX8QVoiYFn4g==
   dependencies:
     "@reflect-ui/core" "0.0.2-rc.7"
     axios "^0.21.0"
