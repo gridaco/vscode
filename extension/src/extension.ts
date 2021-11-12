@@ -8,6 +8,7 @@ import {
   GridaExplorerPreviewProvider,
   GridaExplorerLiveTreeProvider,
 } from "./grida-explorer";
+import { GRIDA_VDOC_SCHEME } from "./k";
 import { CodeEmbedVscodePanel } from "./panel-webview-embed";
 import { __register_v_doc } from "./virtual";
 
@@ -63,6 +64,40 @@ function __register_commands(context: vscode.ExtensionContext) {
       "grida-vscode-extension.enter-assistant-live-session",
       () => {
         CodeEmbedVscodePanel.createOrShow(context.extensionUri);
+      }
+    )
+  );
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand(
+      "grida-explorer-preview.open-in-editor",
+      () => {
+        GridaExplorerPreviewProvider.Instance.openInEditor();
+      }
+    )
+  );
+
+  // register a command that opens a cowsay-document
+  context.subscriptions.push(
+    vscode.commands.registerCommand("grida-open-v-doc", async () => {
+      // TODO: - how to open from current selection?
+    })
+  );
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand(
+      "grida-open-v-doc-load-from-input-url",
+      async () => {
+        const what = await vscode.window.showInputBox({
+          placeHolder: "Your Figma design url",
+        });
+        if (what) {
+          const uri = vscode.Uri.parse(
+            GRIDA_VDOC_SCHEME + ":" + "docs-annotation.example.tsx"
+          );
+          const doc = await vscode.workspace.openTextDocument(uri); // calls back into the provider
+          await vscode.window.showTextDocument(doc, { preview: false });
+        }
       }
     )
   );

@@ -1,4 +1,5 @@
 import * as vscode from "vscode";
+import { GRIDA_VDOC_SCHEME } from "../k";
 import { webview_utils } from "../_utils";
 
 export class GridaExplorerPreviewProvider
@@ -103,5 +104,14 @@ export class GridaExplorerPreviewProvider
       src: "https://code.grida.co/embed/vscode/grida-explorer-preview",
       height: "100vh",
     });
+  }
+
+  public async openInEditor() {
+    const uri = vscode.Uri.parse(
+      GRIDA_VDOC_SCHEME + ":" + "docs-annotation.example.tsx"
+    );
+    const doc = await vscode.workspace.openTextDocument(uri);
+    await vscode.window.showTextDocument(doc, { preview: false });
+    // opens up with the content via v-doc
   }
 }
