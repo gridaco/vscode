@@ -122,7 +122,7 @@ export class GridaExplorerPreviewProvider
       );
     }
     const uri = vscode.Uri.parse(
-      GRIDA_VDOC_SCHEME + ":" + "[Preview] preview.html"
+      GRIDA_VDOC_SCHEME + ":" + "[Preview] preview.tsx"
     );
     dangerously_provide_next_document_content(this._preview.code.scaffold.raw);
     const doc = await vscode.workspace.openTextDocument(uri);

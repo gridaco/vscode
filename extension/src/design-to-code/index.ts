@@ -1,5 +1,5 @@
-import { designToCode } from "@designto/code";
-import { vanilla_presets } from "@grida/builder-config-preset";
+import { designToCode, Result } from "@designto/code";
+import { vanilla_presets, react_presets } from "@grida/builder-config-preset";
 import { config } from "@designto/config";
 import {
   ImageRepository,
@@ -33,7 +33,11 @@ export async function vscodeDesignToCode({
   name: string;
   nodeid: string;
   filekey: string;
-}) {
+}): Promise<{
+  entity;
+  vanilla: Result;
+  result: Result;
+}> {
   MainImageRepository.instance = new RemoteImageRepositories(filekey);
   MainImageRepository.instance.register(
     new ImageRepository(
@@ -55,7 +59,7 @@ export async function vscodeDesignToCode({
     vscode.window.showErrorMessage("Failed to fetch design from server.");
   }
   try {
-    const d2c_res = await designToCode({
+    const vanilla_res = await designToCode({
       input: {
         id: nodeid,
         name: name,
@@ -69,9 +73,24 @@ export async function vscodeDesignToCode({
       asset_config: { asset_repository: MainImageRepository.instance },
     });
 
+    const react_res = await designToCode({
+      input: {
+        id: nodeid,
+        name: name,
+        entry: entity,
+      },
+      build_config: {
+        ...config.default_build_configuration,
+        disable_components: true,
+      },
+      framework: react_presets.react_default,
+      asset_config: { asset_repository: MainImageRepository.instance },
+    });
+
     return {
       entity: entity,
-      ...d2c_res,
+      vanilla: vanilla_res,
+      result: react_res,
     };
   } catch (e) {
     console.error(e);

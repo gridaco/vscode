@@ -90,13 +90,13 @@ ${
         GridaExplorerPreviewProvider.Instance.updatePreview({
           id: this.nodeid,
           vanilla: {
-            srcDoc: result.scaffold.raw,
+            srcDoc: result.vanilla.scaffold.raw,
             size: {
               width: result.entity.width,
               height: result.entity.height,
             },
           },
-          code: result,
+          code: result.result,
         });
       })
       .finally(() => {
