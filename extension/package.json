@@ -69,6 +69,14 @@
 				}
 			},
 			{
+				"command": "grida-explorer-preview.open-in-editor",
+				"title": "Open in editor",
+				"icon": {
+					"light": "resources/light/open-in-new.svg",
+					"dark": "resources/dark/open-in-new.svg"
+				}
+			},
+			{
 				"command": "grida-explorer.switch-workspace",
 				"title": "Switch Grida Workspace"
 			},
@@ -148,6 +156,11 @@
 				{
 					"command": "grida-explorer.refresh",
 					"when": "view == grida-explorer-project-scenes",
+					"group": "navigation"
+				},
+				{
+					"command": "grida-explorer-preview.open-in-editor",
+					"when": "view == grida-explorer-preview",
 					"group": "navigation"
 				},
 				{
