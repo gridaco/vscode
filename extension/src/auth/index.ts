@@ -1,4 +1,5 @@
 import * as vscode from "vscode";
+import { get_connected_figma_account_info } from "./figma-auth-tunnel";
 import { Keychain } from "./keychain";
 import { AuthProviderType, GridaAuthenticationProvider } from "./provider";
 
@@ -27,8 +28,10 @@ export async function __request_login_if_not(context: vscode.ExtensionContext) {
           clearSessionPreference: true,
         }
       );
+
+      // do with session.
     } catch (e) {
-      console.error(e);
+      vscode.window.showErrorMessage("failed to get session", e);
     }
   }
 }

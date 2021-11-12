@@ -31,7 +31,7 @@ export class GridaExplorerPreviewProvider
     webviewView.webview.html = this._getHtmlForWebview(webviewView.webview);
 
     webviewView.webview.onDidReceiveMessage((data) => {
-      console.log("Received message from webview: ", data);
+      // console.log("Received message from webview: ", data);
 
       if (data.__signature === "vscode-side-host-loaded") {
         setTimeout(() => {

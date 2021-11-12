@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import { GridaServer } from "./auth-server";
+import { GridaAuthServer } from "./auth-server";
 import { arrayEquals } from "./utils";
 import { v4 as uuid } from "uuid";
 import { Keychain } from "./keychain";
@@ -25,7 +25,7 @@ export class GridaAuthenticationProvider
 
   private _sessionChangeEmitter =
     new vscode.EventEmitter<vscode.AuthenticationProviderAuthenticationSessionsChangeEvent>();
-  private _server: GridaServer;
+  private _server: GridaAuthServer;
   private _keychain: Keychain = new Keychain(this.context, `${this.type}.auth`);
   private _sessionsPromise: Promise<vscode.AuthenticationSession[]>;
   private _disposable: vscode.Disposable;
@@ -37,7 +37,7 @@ export class GridaAuthenticationProvider
       aiKey: string;
     };
 
-    this._server = new GridaServer();
+    this._server = new GridaAuthServer();
 
     // Contains the current state of the sessions we have available.
     this._sessionsPromise = this.readSessions();

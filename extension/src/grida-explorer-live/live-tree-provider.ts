@@ -1,7 +1,8 @@
 import * as vscode from "vscode";
 import { LiveSessionManager } from "./live-session-manager";
-import { Client } from "@design-sdk/figma-remote-api";
+import { Client, ClientInterface } from "@design-sdk/figma-remote-api";
 import { NodeItem } from "../node-tree-components";
+import { registerOnFigmaPersonalAccessTokenChange } from "../auth/figma-auth-tunnel";
 
 export class GridaExplorerLiveTreeProvider
   implements vscode.TreeDataProvider<NodeItem>
@@ -16,11 +17,18 @@ export class GridaExplorerLiveTreeProvider
 
   private _liveSessionManager: LiveSessionManager;
   private _liveLastSelection: { node: string; filekey: string } | undefined;
-  private _apiclient = Client({
-    personalAccessToken: process.env
-      .DEV_ONLY_FIGMA_PERSONAL_ACCESS_TOKEN as string,
-  });
+  private _apiclient: ClientInterface;
   constructor() {
+    registerOnFigmaPersonalAccessTokenChange(
+      (pat) => {
+        this._apiclient = Client({
+          personalAccessToken: pat,
+        });
+      },
+      {
+        emmitInitially: true,
+      }
+    );
     this._liveSessionManager = LiveSessionManager.Instance;
     this._liveSessionManager.provideAuthentication(
       // TODO: update with real userid

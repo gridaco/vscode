@@ -102,7 +102,7 @@ async function getUserInfo(
   }
 }
 
-export class GridaServer implements IGridaServer {
+export class GridaAuthServer implements IGridaServer {
   friendlyName = "Grida";
   type = AuthProviderType.grida;
   private _statusBarItem: vscode.StatusBarItem | undefined;
