@@ -185,7 +185,15 @@
 						"use html/css & vanilla js"
 					],
 					"default": "auto",
-					"description": "Default front-end framework to use"
+					"markdownDescription": "Default front-end framework to use. [Learn more](https://github.com/gridaco/designto-code)."
+				},
+				"linkedAccounts.figma.personalAccessToken": {
+					"type": "string",
+					"markdownDescription": "Personal access token to authorize figma api. [Learn how](https://www.grida.co/docs/with-figma/guides/how-to-get-personal-access-token)."
+				},
+				"linkedAccounts.github.personalAccessToken": {
+					"type": "string",
+					"markdownDescription": "Personal access token to authorize github api."
 				}
 			}
 		}
@@ -223,7 +231,7 @@
 		"webpack-cli": "^4.2.0"
 	},
 	"dependencies": {
-		"@base-sdk-fp/accounts": "^0.0.2",
+		"@base-sdk-fp/accounts": "^0.0.3",
 		"@base-sdk-fp/auth": "^0.1.0-8",
 		"@code-features/assets": "0.0.0",
 		"@code-features/component": "0.0.0",
