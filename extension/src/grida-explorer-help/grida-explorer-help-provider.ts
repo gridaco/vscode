@@ -16,7 +16,7 @@ const HELP_ITEMS = [
   },
   {
     name: "Ask in Slack",
-    uri: "https://www.grida.co/slack",
+    uri: "https://www.grida.co/join-slack",
   },
   {
     name: "View on Github",
