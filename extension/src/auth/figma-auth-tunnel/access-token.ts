@@ -1,5 +1,12 @@
 import { linkedaccounts } from "@base-sdk-fp/accounts";
 import { initClient } from "@base-sdk-fp/core";
+import { tunnel } from "@base-sdk-fp/auth";
+import * as vscode from "vscode";
+
+export async function requestFigmaAuthentication() {
+  const url = tunnel.makeurl.connect_figma();
+  vscode.env.openExternal(vscode.Uri.parse(url));
+}
 
 export async function get_connected_figma_account_info(auth: {
   accessToken: string;
