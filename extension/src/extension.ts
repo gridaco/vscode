@@ -22,10 +22,10 @@ export function activate(context: vscode.ExtensionContext) {
   __request_login_if_not(context);
 
   // register grida explorer data provider
-  vscode.window.registerTreeDataProvider(
-    "grida-explorer-project-scenes",
-    new GridaExplorerScenesProvider(vscode.workspace.rootPath as string)
-  );
+  // vscode.window.registerTreeDataProvider(
+  //   "grida-explorer-project-scenes",
+  //   new GridaExplorerScenesProvider(vscode.workspace.rootPath as string)
+  // );
 
   vscode.authentication.onDidChangeSessions((e) => {
     if (e.provider.id === "grida") {

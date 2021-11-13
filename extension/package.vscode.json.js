@@ -89,12 +89,12 @@ module.exports = {
           type: "tree",
           contextualTitle: "Live",
         },
-        {
-          id: "grida-explorer-project-scenes",
-          name: "Scenes / Components",
-          type: "tree",
-          contextualTitle: "Components",
-        },
+        // {
+        //   id: "grida-explorer-project-scenes",
+        //   name: "Scenes / Components",
+        //   type: "tree",
+        //   contextualTitle: "Components",
+        // },
         {
           id: "grida-explorer-preview",
           name: "Preview",
@@ -110,10 +110,10 @@ module.exports = {
         },
       ],
       explorer: [
-        {
-          id: "grida-hierarchy",
-          name: "Grida",
-        },
+        // {
+        //   id: "grida-hierarchy",
+        //   name: "Grida",
+        // },
       ],
     },
     viewsWelcome: [

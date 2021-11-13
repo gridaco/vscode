@@ -194,12 +194,6 @@
 					"contextualTitle": "Live"
 				},
 				{
-					"id": "grida-explorer-project-scenes",
-					"name": "Scenes / Components",
-					"type": "tree",
-					"contextualTitle": "Components"
-				},
-				{
 					"id": "grida-explorer-preview",
 					"name": "Preview",
 					"type": "webview",
@@ -213,12 +207,7 @@
 					"visibility": "collapsed"
 				}
 			],
-			"explorer": [
-				{
-					"id": "grida-hierarchy",
-					"name": "Grida"
-				}
-			]
+			"explorer": []
 		},
 		"viewsWelcome": [
 			{
