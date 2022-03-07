@@ -1,5 +1,7 @@
+import { env } from "process";
 import * as vscode from "vscode";
 import { __register_auth_manager, __request_login_if_not } from "./auth";
+import { tsenv, parseBoolean } from "./env";
 import {
   __register_command_open_in_vdoc_editor,
   __register_help_and_feedback_view,
@@ -8,6 +10,7 @@ import {
 } from "./grida-explorer";
 import { GRIDA_VDOC_SCHEME } from "./k";
 import { CodeEmbedVscodePanel } from "./panel-webview-embed";
+import { __register_inlinecompletion } from "./support-inline-completion";
 import { __register_v_doc } from "./virtual";
 
 // this method is called when your extension is activated
@@ -35,6 +38,12 @@ export function activate(context: vscode.ExtensionContext) {
   __register_previewer_view(context);
   __register_live_session_view(context);
   __register_help_and_feedback_view();
+
+  // preview features
+  if (parseBoolean(tsenv.PREVIEW_FEATURE_INLINECOMPLETION)) {
+    __register_inlinecompletion(context);
+  }
+  //
 }
 
 function __register_commands(context: vscode.ExtensionContext) {

@@ -108,6 +108,7 @@
 		"uuid": "8.1.0"
 	},
 	"activationEvents": [
+		"*",
 		"onAuthenticationRequest:grida",
 		"onCommand:grida-vscode-extension.enter-assistant-live-session",
 		"onCommand:grida-open-v-doc",
@@ -118,6 +119,10 @@
 		"onView:grida-explorer-live",
 		"onView:grida-explorer-help-and-feedback",
 		"onView:grida-explorer-preview"
+	],
+	"enableProposedApi": true,
+	"enabledApiProposals": [
+		"inlineCompletions"
 	],
 	"capabilities": {
 		"virtualWorkspaces": true,
@@ -133,6 +138,10 @@
 			}
 		],
 		"commands": [
+			{
+				"command": "extension.inline-completion-settings",
+				"title": "Inline Completion Settings"
+			},
 			{
 				"command": "grida-vscode-extension.enter-assistant-live-session",
 				"title": "Enter live session"
@@ -223,6 +232,11 @@
 			}
 		],
 		"menus": {
+			"editor/inlineCompletions/actions": [
+				{
+					"command": "extension.inline-completion-settings"
+				}
+			],
 			"view/title": [
 				{
 					"command": "grida-explorer.refresh",

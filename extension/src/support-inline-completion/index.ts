@@ -1,6 +1,18 @@
 import * as vscode from "vscode";
+import { canSuggestInitially, getInitialSuggestionsFromFileName } from "./suggestions";
 
-function reg() {
+export function __register_inlinecompletion(context: vscode.ExtensionContext) {
+  console.info("start register:: inline completion");
+
+  const disposable = vscode.commands.registerCommand(
+    "extension.inline-completion-settings",
+    () => {
+      vscode.window.showInformationMessage("Show settings");
+    }
+  );
+
+  context.subscriptions.push(disposable);
+
   let someTrackingIdCounter = 0;
 
   const provider: vscode.InlineCompletionItemProvider = {
@@ -10,7 +22,27 @@ function reg() {
       context,
       token
     ) => {
-      console.log("provideInlineCompletionItems triggered");
+      const {languageId: lang, fileName, uri, getText} = document;
+      const raw = getText();
+
+      // initial trigger
+      if (canSuggestInitially(document)){
+        //
+        return [
+          {
+            text: getInitialSuggestionsFromFileName(fileName, lang),
+            // range: new vscode.Range(
+            //   position.line,
+            //   0,
+            //   position.line,
+            //   100
+            // ),
+            someTrackingId: someTrackingIdCounter++,
+          },
+        ] as DefaultInlineCompletionItem[]
+      }
+
+      console.log("provideInlineCompletionItems triggered", fileName, lang);
 
       const regexp = /\/\/ \[(.+),(.+)\)\:(.*)/;
       if (position.line <= 0) {
@@ -45,6 +77,14 @@ function reg() {
     },
   };
 
+  // react only: .tsx, .jsx
+  // react compat: .ts, .js
+  // vue only: .vue
+  // vue compat: .ts, .js
+  // flutter only: .dart
+  // html only: .html, .htm
+  // css only: .css, .scss, .sass, .less, .styl
+
   vscode.languages.registerInlineCompletionItemProvider(
     { pattern: "**" },
     provider
@@ -57,6 +97,8 @@ function reg() {
       const id = (e.completionItem as DefaultInlineCompletionItem)
         .someTrackingId;
     });
+
+  console.info("end register:: inline completion");
 }
 
 interface DefaultInlineCompletionItem extends vscode.InlineCompletionItem {

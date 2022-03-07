@@ -6,6 +6,7 @@ const welcome_grida_explorer_live = {
 
 module.exports = {
   activationEvents: [
+    "*",
     "onAuthenticationRequest:grida",
     "onCommand:grida-vscode-extension.enter-assistant-live-session",
     "onCommand:grida-open-v-doc",
@@ -17,6 +18,8 @@ module.exports = {
     "onView:grida-explorer-help-and-feedback",
     "onView:grida-explorer-preview",
   ],
+  enableProposedApi: true,
+  enabledApiProposals: ["inlineCompletions"],
   main: "./dist/extension.js",
   capabilities: {
     virtualWorkspaces: true,
@@ -32,6 +35,10 @@ module.exports = {
       },
     ],
     commands: [
+      {
+        command: "extension.inline-completion-settings",
+        title: "Inline Completion Settings",
+      },
       {
         command: "grida-vscode-extension.enter-assistant-live-session",
         title: "Enter live session",
@@ -131,6 +138,11 @@ module.exports = {
       welcome_grida_explorer_live,
     ],
     menus: {
+      "editor/inlineCompletions/actions": [
+        {
+          command: "extension.inline-completion-settings",
+        },
+      ],
       "view/title": [
         {
           command: "grida-explorer.refresh",
