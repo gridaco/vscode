@@ -27,7 +27,7 @@
 	"main": "./dist/extension.js",
 	"scripts": {
 		"vscode:prepublish": "yarn run package",
-		"vscode:makepkgjson": "node ./scripts/copy-vscode-attributes.js",
+		"vscode:packagejson": "node ./scripts/copy-vscode-attributes.js",
 		"clean": "rimraf dist",
 		"compile": "webpack --config ./build/node-extension.webpack.config.js",
 		"watch": "webpack --watch --config ./build/node-extension.webpack.config.js",

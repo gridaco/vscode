@@ -1,12 +1,10 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 import * as vscode from "vscode";
 import { __register_auth_manager, __request_login_if_not } from "./auth";
 import {
-  GridaExplorerScenesProvider,
-  __register_help_and_feedback,
-  GridaExplorerPreviewProvider,
-  GridaExplorerLiveTreeProvider,
+  __register_command_open_in_vdoc_editor,
+  __register_help_and_feedback_view,
+  __register_live_session_view,
+  __register_previewer_view,
 } from "./grida-explorer";
 import { GRIDA_VDOC_SCHEME } from "./k";
 import { CodeEmbedVscodePanel } from "./panel-webview-embed";
@@ -21,7 +19,7 @@ export function activate(context: vscode.ExtensionContext) {
   __register_auth_manager(context);
   __request_login_if_not(context);
 
-  // register grida explorer data provider
+  // (not ready) register grida explorer data provider
   // vscode.window.registerTreeDataProvider(
   //   "grida-explorer-project-scenes",
   //   new GridaExplorerScenesProvider(vscode.workspace.rootPath as string)
@@ -29,29 +27,14 @@ export function activate(context: vscode.ExtensionContext) {
 
   vscode.authentication.onDidChangeSessions((e) => {
     if (e.provider.id === "grida") {
-      console.log("session changed", e);
+      // console.log("session changed", e);
       // register after-auth initalization here.
     }
   });
 
-  const liveTreeView = vscode.window.createTreeView("grida-explorer-live", {
-    // "live" uses singleton
-    treeDataProvider: GridaExplorerLiveTreeProvider.Instance,
-  });
-  liveTreeView.onDidChangeSelection((e) => {
-    e.selection.forEach((item) => {
-      item.handleClick();
-    });
-  });
-
-  context.subscriptions.push(
-    vscode.window.registerWebviewViewProvider(
-      GridaExplorerPreviewProvider.viewType,
-      GridaExplorerPreviewProvider.Instance
-    )
-  );
-
-  __register_help_and_feedback();
+  __register_previewer_view(context);
+  __register_live_session_view(context);
+  __register_help_and_feedback_view();
 }
 
 function __register_commands(context: vscode.ExtensionContext) {
@@ -68,21 +51,7 @@ function __register_commands(context: vscode.ExtensionContext) {
     )
   );
 
-  context.subscriptions.push(
-    vscode.commands.registerCommand(
-      "grida-explorer-preview.open-in-editor",
-      () => {
-        GridaExplorerPreviewProvider.Instance.openInEditor();
-      }
-    )
-  );
-
-  // register a command that opens a cowsay-document
-  context.subscriptions.push(
-    vscode.commands.registerCommand("grida-open-v-doc", async () => {
-      // TODO: - how to open from current selection?
-    })
-  );
+  __register_command_open_in_vdoc_editor(context);
 
   context.subscriptions.push(
     vscode.commands.registerCommand(
