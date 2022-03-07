@@ -1,3 +1,9 @@
+const welcome_grida_explorer_live = {
+  view: "grida-explorer-live",
+  contents:
+    "From Live, you can instantly integrate your design selection into your workspace. Select your design from Figma via Assistant\n[Open Figma](https://figma.com/files), [Install Assistant](https://www.figma.com/community/plugin/896445082033423994/), Select a node.\n[Learn how](command:grida.signin)",
+};
+
 module.exports = {
   activationEvents: [
     "onAuthenticationRequest:grida",
@@ -122,11 +128,7 @@ module.exports = {
         contents:
           "Welcome to Grida for VSCode. [learn more](https://www.grida.co/).\n[Signin](command:grida.signin)",
       },
-      {
-        view: "grida-explorer-live",
-        contents:
-          "From Live, you can instantly integrate your design selection into your workspace. Select your design from Figma via Assistant\n[Open Figma](https://figma.com/files), [Install Assistant](https://www.figma.com/community/plugin/896445082033423994/), Select a node.\n[Learn how](command:grida.signin)",
-      },
+      welcome_grida_explorer_live,
     ],
     menus: {
       "view/title": [
