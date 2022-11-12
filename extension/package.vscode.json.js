@@ -18,8 +18,7 @@ module.exports = {
     "onView:grida-explorer-help-and-feedback",
     "onView:grida-explorer-preview",
   ],
-  enableProposedApi: true,
-  enabledApiProposals: ["inlineCompletions"],
+  enabledApiProposals: ["inlineCompletions", "inlineCompletionsAdditions"],
   main: "./dist/extension.js",
   capabilities: {
     virtualWorkspaces: true,

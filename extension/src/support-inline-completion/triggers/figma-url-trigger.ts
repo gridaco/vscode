@@ -7,3 +7,4 @@
 // 2. generate body
 // 3. provide to completion ai
 
+export const dummy = "";

@@ -27,7 +27,7 @@
   "main": "./dist/extension.js",
   "scripts": {
     "vscode:prepublish": "yarn run package",
-    "vscode:packagejson": "node ./scripts/copy-vscode-attributes.js",
+    "vscode:package.json": "node ./scripts/copy-vscode-attributes.js",
     "download-api": "vscode-dts dev",
     "postdownload-api": "vscode-dts main",
     "postinstall": "yarn run download-api",

@@ -30,7 +30,7 @@ export function __register_inlinecompletion(context: vscode.ExtensionContext) {
         //
         return [
           {
-            text: getInitialSuggestionsFromFileName(fileName, lang),
+            insertText: getInitialSuggestionsFromFileName(fileName, lang),
             // range: new vscode.Range(
             //   position.line,
             //   0,
@@ -63,7 +63,7 @@ export function __register_inlinecompletion(context: vscode.ExtensionContext) {
 
         return [
           {
-            text,
+            insertText: text,
             range: new vscode.Range(
               position.line,
               startInt,
@@ -90,13 +90,13 @@ export function __register_inlinecompletion(context: vscode.ExtensionContext) {
     provider
   );
 
-  // Be aware that the API around `getInlineCompletionItemController` will not be finalized as is!
-  vscode.window
-    .getInlineCompletionItemController(provider)
-    .onDidShowCompletionItem((e) => {
-      const id = (e.completionItem as DefaultInlineCompletionItem)
-        .someTrackingId;
-    });
+  // // Be aware that the API around `getInlineCompletionItemController` will not be finalized as is!
+  // vscode.window
+  //   .getInlineCompletionItemController(provider)
+  //   .onDidShowCompletionItem((e) => {
+  //     const id = (e.completionItem as DefaultInlineCompletionItem)
+  //       .someTrackingId;
+  //   });
 
   console.info("end register:: inline completion");
 }
