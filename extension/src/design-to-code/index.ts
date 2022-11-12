@@ -1,13 +1,13 @@
 import { designToCode, Result } from "@designto/code";
 import { vanilla_presets, react_presets } from "@grida/builder-config-preset";
-import { config } from "@designto/config";
+import { config } from "@grida/builder-config";
 import {
   ImageRepository,
   MainImageRepository,
-} from "@design-sdk/core/assets-repository";
-import { RemoteImageRepositories } from "@design-sdk/figma-remote/lib/asset-repository/image-repository";
+} from "@design-sdk/asset-repository";
+import { RemoteImageRepositories } from "@design-sdk/figma-remote/asset-repository";
 import { fetch } from "@design-sdk/figma-remote";
-import { configure_auth_credentials } from "@design-sdk/figma-remote/lib/configure-auth-credentials";
+import { configure_auth_credentials } from "@design-sdk/figma-remote";
 import {
   registerOnFigmaPersonalAccessTokenChange,
   getFigmaPersonalAccessToken,

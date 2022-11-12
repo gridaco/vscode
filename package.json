@@ -12,9 +12,10 @@
   "workspaces": [
     "extension",
     "packages/*",
-    "externals/design-to-code/packages/*",
-    "externals/design-to-code/externals/coli/packages/*",
-    "externals/design-to-code/externals/reflect-core/packages/*",
-    "externals/design-to-code/externals/design-sdk/*"
-  ]
+    "externals/design-to-code/packages/*"
+  ],
+  "resolutions": {
+    "@reflect-ui/core": "0.0.9",
+    "csstype": "3.1.0"
+  }
 }
