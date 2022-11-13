@@ -101,6 +101,7 @@
 		"@web-builder/vanilla": "0.0.0",
 		"coli": "^0.0.32",
 		"node-fetch": "2.6.1",
+		"openai": "^3.1.0",
 		"pusher-js": "^7.0.3",
 		"uuid": "8.1.0"
 	},

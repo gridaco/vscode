@@ -1,5 +1,9 @@
 import * as vscode from "vscode";
-import { canSuggestInitially, getInitialSuggestionsFromFileName } from "./suggestions";
+import {
+  canSuggestInitially,
+  getInitialSuggestionsFromFileName,
+} from "./suggestions";
+import { getcompletion } from "./_demo/api";
 
 export function __register_inlinecompletion(context: vscode.ExtensionContext) {
   console.info("start register:: inline completion");
@@ -22,15 +26,26 @@ export function __register_inlinecompletion(context: vscode.ExtensionContext) {
       context,
       token
     ) => {
-      const {languageId: lang, fileName, uri, getText} = document;
+      const { languageId: lang, fileName, uri, getText } = document;
       const raw = getText();
 
+      // test
+      const suggestions = await getcompletion(raw);
+      return suggestions.map((suggestion) => {
+        const { text, index, logprobs, finish_reason } = suggestion;
+        const trackingId = someTrackingIdCounter++;
+        return new vscode.InlineCompletionItem(
+          text,
+          new vscode.Range(position, position)
+        );
+      });
+
       // initial trigger
-      if (canSuggestInitially(document)){
+      if (canSuggestInitially(document)) {
         //
         return [
           {
-            insertText: getInitialSuggestionsFromFileName(fileName, lang),
+            insertText: await getInitialSuggestionsFromFileName(fileName, lang),
             // range: new vscode.Range(
             //   position.line,
             //   0,
@@ -39,7 +54,7 @@ export function __register_inlinecompletion(context: vscode.ExtensionContext) {
             // ),
             someTrackingId: someTrackingIdCounter++,
           },
-        ] as DefaultInlineCompletionItem[]
+        ] as DefaultInlineCompletionItem[];
       }
 
       console.log("provideInlineCompletionItems triggered", fileName, lang);

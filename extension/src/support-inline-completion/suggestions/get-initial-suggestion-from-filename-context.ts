@@ -3,24 +3,27 @@ import * as vscode from "vscode";
 /**
  * generates initil suggestion for empty file from context - [filename (path), language]
  */
-export function getInitialSuggestionsFromFileName(
+export async function getInitialSuggestionsFromFileName(
   fileName: string,
   languageId: string
 ) {
   const ext = fileName.match(/\.[0-9a-z]+$/i)?.[0];
 
+  await sleep(500);
+
   console.log(languageId, ext);
   switch (languageId) {
     case "typescriptreact": // .tsx
-    case "javascriptreact": { // .jsx
+    case "javascriptreact": {
+      // .jsx
       // TODO: make it dynamic
       return react_example;
     }
     case "typescript": // .ts
     case "javascript": // .js
-    case "dart": // .dart
-    {
-        return `import "flutter:material.dart"`;
+    case "dart": {
+      // .dart
+      return `import "flutter:material.dart"`;
     }
     case "html": // .html, htm
     case "md": // .md, .mdx
@@ -32,13 +35,15 @@ export function getInitialSuggestionsFromFileName(
   }
 }
 
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 export function canSuggestInitially(document: vscode.TextDocument) {
   const raw = document.getText();
   // regex \`\s\` -> [" ", "  ", "\n", "\t", ...]
   return !raw.replace(/\s/g, "").length;
 }
-
-
 
 const react_example = `import React from "react";
 import styled from "styled-components";
@@ -153,4 +158,4 @@ export function Pricing () {
   </RootWrapperPricing>	
     )
 }
-`
+`;
