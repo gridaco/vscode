@@ -1,3 +1,6 @@
+<img width="1522" alt="VSCode Grida" src="https://user-images.githubusercontent.com/16307013/214878410-774838c7-ffbe-4498-88d2-bb91aa5a52cb.png">
+
+
 # vscode extension for Grida
 
 vscode extension for grida apps
