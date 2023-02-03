@@ -20,6 +20,10 @@
 		"Figma",
 		"Sketch",
 		"React",
+		"Flutter",
+		"Design",
+		"Preview",
+		"Components",
 		"Design to code",
 		"Typescript",
 		"Frontend tools"
@@ -66,7 +70,6 @@
 		"@code-features/flags": "0.0.0",
 		"@design-sdk/asset-repository": "^0.0.43",
 		"@design-sdk/core": "^0.0.43",
-		"@design-sdk/query": "^0.0.43",
 		"@design-sdk/diff": "^0.0.43",
 		"@design-sdk/figma": "^0.0.43",
 		"@design-sdk/figma-auth-store": "^0.0.43",
@@ -77,6 +80,7 @@
 		"@design-sdk/figma-remote-types": "^0.0.43",
 		"@design-sdk/figma-url": "^0.0.43",
 		"@design-sdk/flags": "^0.0.43",
+		"@design-sdk/query": "^0.0.43",
 		"@design-sdk/url-analysis": "^0.0.43",
 		"@designto/code": "0.0.1",
 		"@designto/flutter": "0.0.1",
@@ -90,6 +94,7 @@
 		"@grida/builder-platform-types": "1.0.0",
 		"@reflect-ui/core": "^0.0.9",
 		"@reflect-ui/detection": "^0.1.6",
+		"@vscode.grida.co/flutter-preview": "^0.0.0",
 		"@web-builder/core": "0.0.0",
 		"@web-builder/react": "18.2.0",
 		"@web-builder/reflect-ui": "0.0.0",
@@ -102,16 +107,12 @@
 		"uuid": "8.1.0"
 	},
 	"activationEvents": [
-		"onAuthenticationRequest:grida",
-		"onCommand:grida-vscode-extension.enter-assistant-live-session",
 		"onCommand:grida-open-v-doc",
-		"onCommand:grida-open-v-doc-load-from-input-url",
 		"onWebviewPanel:grida-vscode-extension",
 		"onView:grida-explorer",
 		"onView:grida-explorer-project-scenes",
-		"onView:grida-explorer-live",
-		"onView:grida-explorer-help-and-feedback",
-		"onView:grida-explorer-preview"
+		"onLanguage:dart",
+		"onStartupFinished"
 	],
 	"capabilities": {
 		"virtualWorkspaces": true,
@@ -171,6 +172,10 @@
 					"light": "resources/light/edit.svg",
 					"dark": "resources/dark/edit.svg"
 				}
+			},
+			{
+				"command": "grida-flutter.showPreview",
+				"title": "Preview"
 			}
 		],
 		"viewsContainers": {
@@ -242,6 +247,13 @@
 					"command": "grida-explorer.edit",
 					"when": "view == grida-explorer-project-scenes && viewItem == project",
 					"group": "inline"
+				}
+			],
+			"editor/title": [
+				{
+					"when": "grida-flutter.componentsDetected",
+					"command": "grida-flutter.showPreview",
+					"group": "navigation"
 				}
 			]
 		},

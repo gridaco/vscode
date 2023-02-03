@@ -1,15 +1,11 @@
 module.exports = {
   activationEvents: [
-    "onAuthenticationRequest:grida",
-    "onCommand:grida-vscode-extension.enter-assistant-live-session",
     "onCommand:grida-open-v-doc",
-    "onCommand:grida-open-v-doc-load-from-input-url",
     "onWebviewPanel:grida-vscode-extension",
     "onView:grida-explorer",
     "onView:grida-explorer-project-scenes",
-    "onView:grida-explorer-live",
-    "onView:grida-explorer-help-and-feedback",
-    "onView:grida-explorer-preview",
+    "onLanguage:dart",
+    "onStartupFinished",
   ],
   main: "./dist/extension.js",
   capabilities: {
@@ -70,6 +66,10 @@ module.exports = {
           light: "resources/light/edit.svg",
           dark: "resources/dark/edit.svg",
         },
+      },
+      {
+        command: "grida-flutter.showPreview",
+        title: "Preview",
       },
     ],
     viewsContainers: {
@@ -154,6 +154,13 @@ module.exports = {
           command: "grida-explorer.edit",
           when: "view == grida-explorer-project-scenes && viewItem == project",
           group: "inline",
+        },
+      ],
+      "editor/title": [
+        {
+          when: "grida-flutter.componentsDetected",
+          command: "grida-flutter.showPreview",
+          group: "navigation",
         },
       ],
     },
