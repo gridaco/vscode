@@ -9,6 +9,9 @@ import {
 import { GRIDA_VDOC_SCHEME } from "./k";
 import { CodeEmbedVscodePanel } from "./panel-webview-embed";
 import { __register_v_doc } from "./virtual";
+import __register_flutter_preview, {
+  deactivate as __deactivate_flutter_preview,
+} from "./support-flutter-preview";
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -35,6 +38,8 @@ export function activate(context: vscode.ExtensionContext) {
   __register_previewer_view(context);
   __register_live_session_view(context);
   __register_help_and_feedback_view();
+
+  __register_flutter_preview(context);
 }
 
 function __register_commands(context: vscode.ExtensionContext) {
@@ -73,4 +78,6 @@ function __register_commands(context: vscode.ExtensionContext) {
 }
 
 // this method is called when your extension is deactivated
-export function deactivate() {}
+export function deactivate() {
+  __deactivate_flutter_preview();
+}
