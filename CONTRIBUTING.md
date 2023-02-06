@@ -11,8 +11,11 @@ For contributing to this project, read the grida general contribution guideline 
 Learn more at [publishing-extension](https://code.visualstudio.com/api/working-with-extensions/publishing-extension)
 
 ```sh
-npm install -g vsce
+npm install -g @vscode/vsce
+
+cd extension
 vsce login grida
+vsce package --yarn
 vsce publish --yarn
 # or with auto version up
 vsce publish minor --yarn
