@@ -7,7 +7,9 @@
   "repository": "https://github.com/gridaco/vscode-extension",
   "private": true,
   "scripts": {
-    "checkout:all": "git submodule update --init --recursive"
+    "checkout:all": "git submodule update --init --recursive",
+    "package": "yarn workspace grida-vscode run package",
+    "dev": "yarn workspace grida-vscode run watch"
   },
   "workspaces": [
     "extension",
