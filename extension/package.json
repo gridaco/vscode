@@ -2,7 +2,7 @@
 	"name": "grida-vscode",
 	"displayName": "Grida",
 	"description": "Grida's official extension for vscode users",
-	"version": "0.4.0",
+	"version": "0.4.1",
 	"publisher": "grida",
 	"homepage": "https://grida.co/vscode",
 	"repository": "https://github.com/gridaco/vscode-extension",
