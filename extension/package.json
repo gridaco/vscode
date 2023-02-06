@@ -91,7 +91,7 @@
 		"@grida/builder-config": "0.0.0",
 		"@grida/builder-config-preset": "0.0.0",
 		"@grida/builder-platform-types": "1.0.0",
-		"@reflect-ui/core": "^0.0.9",
+		"@reflect-ui/core": "^0.0.10",
 		"@reflect-ui/detection": "^0.1.6",
 		"@vscode.grida.co/flutter-preview": "^0.0.2",
 		"@web-builder/core": "0.0.0",
@@ -101,6 +101,7 @@
 		"@web-builder/styles": "0.0.0",
 		"@web-builder/vanilla": "0.0.0",
 		"coli": "^0.0.32",
+		"dotenv": "^16.0.3",
 		"node-fetch": "2.6.1",
 		"pusher-js": "^7.0.3",
 		"uuid": "8.1.0"
