@@ -21,6 +21,7 @@ export class GridaExplorerLiveTreeProvider
   constructor() {
     registerOnFigmaPersonalAccessTokenChange(
       (pat) => {
+        console.log("livesession: pat changed", pat);
         this._apiclient = Client({
           personalAccessToken: pat,
         });
@@ -30,6 +31,7 @@ export class GridaExplorerLiveTreeProvider
       }
     );
     this._liveSessionManager = LiveSessionManager.Instance;
+    console.log("initializing livesession...");
     this._liveSessionManager.provideAuthentication(
       // TODO: update with real userid
       process.env.DEV_ONLY_MY_USER_ID as string
@@ -40,6 +42,7 @@ export class GridaExplorerLiveTreeProvider
         node: d.node as string,
         filekey: d.filekey as string,
       };
+      console.log("livesession: selection received", d);
       this.refresh();
     });
 
@@ -69,8 +72,10 @@ export class GridaExplorerLiveTreeProvider
       }
     } else {
       if (this._liveLastSelection) {
-        // this._liveLastSelection
-
+        console.log(
+          "fetching fresh data of selection...",
+          this._liveLastSelection.node
+        );
         return Promise.resolve(
           this.fetch(
             this._liveLastSelection.filekey,
@@ -83,27 +88,35 @@ export class GridaExplorerLiveTreeProvider
   }
 
   async fetch(filekey: string, ...nodes: string[]): Promise<NodeItem[]> {
-    const res = await this._apiclient.fileNodes(filekey, {
-      ids: nodes,
-      depth: 1,
-    });
-
-    const imagemap = await this.fetchPreviewImage(...nodes);
-
-    return Object.keys(res.data.nodes).map((key) => {
-      const nodedata = res.data.nodes[key];
-      const node = nodedata!.document;
-      // fetch image - fetchPreviewImage
-      return new NodeItem({
-        nodeid: node.id,
-        type: node.type,
-        name: node.name,
-        data: node,
-        filekey: filekey,
-        previewImage: imagemap?.[node.id],
-        collapsibleState: vscode.TreeItemCollapsibleState.Collapsed,
+    console.log("fetching", filekey, nodes);
+    try {
+      const res = await this._apiclient.fileNodes(filekey, {
+        ids: nodes,
+        depth: 1,
       });
-    });
+
+      console.log("fetched", res.data.nodes);
+
+      const imagemap = await this.fetchPreviewImage(...nodes);
+
+      return Object.keys(res.data.nodes).map((key) => {
+        const nodedata = res.data.nodes[key];
+        const node = nodedata!.document;
+        // fetch image - fetchPreviewImage
+        return new NodeItem({
+          nodeid: node.id,
+          type: node.type,
+          name: node.name,
+          data: node,
+          filekey: filekey,
+          previewImage: imagemap?.[node.id],
+          collapsibleState: vscode.TreeItemCollapsibleState.Collapsed,
+        });
+      });
+    } catch (e) {
+      console.error("error", e);
+      return [];
+    }
   }
 
   async fetchChildren(filekey: string, parent: string): Promise<NodeItem[]> {

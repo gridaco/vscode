@@ -12,6 +12,15 @@ import { __register_v_doc } from "./virtual";
 import __register_flutter_preview, {
   deactivate as __deactivate_flutter_preview,
 } from "./support-flutter-preview";
+import { config } from "./_envs";
+
+// since we can't use dotenv-webpack, we load .env for our extension here in runtime.
+config();
+
+console.log("mode", process.env.NODE_ENV);
+if (process.env.NODE_ENV === "development") {
+  console.log("env", process.env);
+}
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -30,12 +39,13 @@ export function activate(context: vscode.ExtensionContext) {
 
   vscode.authentication.onDidChangeSessions((e) => {
     if (e.provider.id === "grida") {
-      // console.log("session changed", e);
+      console.log("session changed", e);
       // register after-auth initalization here.
     }
   });
 
   __register_previewer_view(context);
+  console.log("registering live session view...");
   __register_live_session_view(context);
   __register_help_and_feedback_view();
 

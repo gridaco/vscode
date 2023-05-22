@@ -16,7 +16,15 @@ export function getFigmaPersonalAccessToken(): string {
     .get("personalAccessToken");
 
   // allow to load pat from .env if development.
-  if (!pat && process.env.NODE_ENV === "development") {
+  if (
+    process.env.NODE_ENV === "development" &&
+    process.env.DEV_ONLY_FIGMA_PERSONAL_ACCESS_TOKEN
+  ) {
+    if (pat) {
+      console.warn(
+        "figma personal access token is set both from configuration and .env"
+      );
+    }
     pat = process.env.DEV_ONLY_FIGMA_PERSONAL_ACCESS_TOKEN;
   }
 
