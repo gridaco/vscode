@@ -14,7 +14,7 @@
   "workspaces": [
     "extension",
     "packages/*",
-    "externals/design-to-code/packages/*"
+    "externals/code/packages/*"
   ],
   "resolutions": {
     "@reflect-ui/core": "0.0.10",
