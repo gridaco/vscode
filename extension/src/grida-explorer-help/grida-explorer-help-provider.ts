@@ -55,7 +55,7 @@ export class HelpItem extends vscode.TreeItem {
   }
 
   iconPath = {
-    light: icons.arrow_forward.light,
-    dark: icons.arrow_forward.dark,
+    light: icons.arrow_right.light,
+    dark: icons.arrow_right.dark,
   };
 }

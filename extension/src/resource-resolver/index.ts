@@ -2,14 +2,14 @@
 import * as path from "path";
 
 export const icons = {
-  arrow_forward: {
+  arrow_right: {
     light: path.join(
       __filename,
       "..",
       "..",
       "resources",
       "light",
-      "arrow-forward.svg"
+      "arrow-right.svg"
     ),
     dark: path.join(
       __filename,
@@ -17,7 +17,7 @@ export const icons = {
       "..",
       "resources",
       "dark",
-      "arrow-forward.svg"
+      "arrow-right.svg"
     ),
   },
 };
