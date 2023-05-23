@@ -35,16 +35,16 @@ module.exports = {
         command: "grida-explorer.refresh",
         title: "Refresh",
         icon: {
-          light: "resources/light/refresh.svg",
-          dark: "resources/dark/refresh.svg",
+          light: "resources/light/reload.svg",
+          dark: "resources/dark/reload.svg",
         },
       },
       {
         command: "grida-explorer-preview.open-in-editor",
         title: "Open in editor",
         icon: {
-          light: "resources/light/open-in-new.svg",
-          dark: "resources/dark/open-in-new.svg",
+          light: "resources/light/open-in-new-window.svg",
+          dark: "resources/dark/open-in-new-window.svg",
         },
       },
       {
